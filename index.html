@@ -40,6 +40,24 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .chip{height:42px;padding:0 17px;border-radius:21px;background:#fff;font-size:24px;font-weight:500;display:flex;align-items:center;white-space:nowrap;line-height:1}
 .chip.dark{background:var(--ink);color:#fff}
 
+/* ---------- первый экран: имя + три работы ---------- */
+.hero .panel{position:absolute;inset:0;background:var(--lime);border-radius:28px;padding:44px 48px;display:grid;grid-template-columns:1fr 520px;gap:40px}
+.hero .txt{display:flex;flex-direction:column;justify-content:center}
+.hero .word{font-size:156px;line-height:.92;font-weight:600;letter-spacing:-.06em;margin-left:-8px;white-space:nowrap}
+.hero .role{margin-top:26px;font-size:56px;line-height:1.05;font-weight:600;letter-spacing:-.035em}
+.hero .stack{position:relative}
+.hero .ph{position:absolute;display:block;border-radius:24px;overflow:hidden;background:var(--card);box-shadow:0 20px 50px rgba(0,0,0,.18);transform:rotate(var(--r));
+  will-change:transform,filter;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease,filter .6s ease}
+.hero .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.hero .p1{left:0;top:40px;width:300px;height:430px;--r:-8deg;z-index:1}
+.hero .p2{left:180px;top:120px;width:300px;height:430px;--r:6deg;z-index:2}
+.hero .p3{left:60px;top:400px;width:440px;height:260px;--r:-3deg;z-index:3}
+@media(hover:hover){
+  .hero .ph:hover{transform:rotate(0deg) translateY(-14px) scale(1.05);z-index:10;box-shadow:0 30px 60px rgba(0,0,0,.26)}
+  .hero .stack:has(.ph:hover) .ph:not(:hover){filter:grayscale(1) brightness(.92)}
+}
+.hero .ph:active{transform:rotate(0deg) scale(1.02)}
+
 /* ---------- работы ---------- */
 .works{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .card{position:relative;display:block;border-radius:28px;background:var(--card);overflow:hidden;color:inherit;text-decoration:none;transition:background .25s ease,box-shadow .25s ease,transform .25s ease}
@@ -103,10 +121,18 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .slide{height:auto;overflow:visible}
   .stage{position:static;width:auto;height:auto;overflow:visible;transform:none!important}
   .frame{position:static;display:block;padding:28px 16px 8px}
-  .slide:first-child .frame{padding-top:32px}
-  .slide:nth-child(2) .frame{padding-top:0}
-  .slide:nth-child(2) .title{display:none}
-  .slide:nth-child(2) .body{margin-top:10px}
+  .slide:first-child .frame{padding:12px 12px 0}
+  .slide:nth-child(3) .frame{padding-top:0}
+  .slide:nth-child(3) .title{display:none}
+  .slide:nth-child(3) .body{margin-top:10px}
+  .hero .panel{position:static;display:block;border-radius:20px;padding:22px 18px 18px}
+  .hero .word{font-size:52px;margin-left:-2px}
+  .hero .role{margin-top:8px;font-size:24px}
+  .hero .stack{height:400px;margin-top:18px}
+  .hero .p1{left:8px;top:10px;width:165px;height:236px}
+  .hero .p2{left:120px;top:56px;width:165px;height:236px}
+  .hero .p3{left:40px;top:236px;width:242px;height:143px}
+  .hero .ph{border-radius:16px}
   .slide:last-child .frame{padding-bottom:40px}
   .top{height:auto}
   .eyebrow{font-size:12px}
@@ -159,6 +185,15 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 </head>
 <body>
 <div class="deck" id="deck">
+
+<!-- 0. ПЕРВЫЙ ЭКРАН -->
+<section class="slide hero"><main class="stage"><div class="frame"><div class="panel">
+  <div class="txt">
+    <h1 class="word">onewoten</h1>
+    <div class="role">ИИ-композитор<br>и саунд-дизайнер</div>
+  </div>
+  <div class="stack" id="hero-stack" aria-label="Избранные работы"></div>
+</div></div></main></section>
 
 <!-- 1. РАБОТЫ 1/2 -->
 <section class="slide"><main class="stage"><div class="frame">
@@ -261,6 +296,17 @@ function card(w){
 }
 visible.slice(0,4).forEach(w=>document.getElementById('works1').appendChild(card(w)));
 visible.slice(4,8).forEach(w=>document.getElementById('works2').appendChild(card(w)));
+
+/* первый экран: три работы, картинки берутся из WORKS */
+const HERO=[[1213937432,'p1'],[1204216417,'p2'],[1174736667,'p3']];
+const heroStack=document.getElementById('hero-stack');
+HERO.forEach(([id,cls])=>{
+  const w=WORKS.find(x=>x.id===id);
+  const a=document.createElement('a');
+  a.href=`https://vimeo.com/${id}`;a.target='_blank';a.rel='noopener';a.className='ph '+cls;
+  a.innerHTML=`<img src="${w.img}" alt="${w.brand}${w.sub?' — '+w.sub:''}" style="object-position:${w.vertical?'50% 50%':(w.pos||'50% 50%')}">`;
+  heroStack.appendChild(a);
+});
 
 /* композиция «монтаж + музыка» */
 const COMBO=[1213937432,1204216417,1204216415,1162266151,1132286573];
