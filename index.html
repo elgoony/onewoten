@@ -11,18 +11,18 @@
   --muted:#6e6b66;
   --card:#ECE9E3;
   --lime:#D0F04A;
+  --glow:#C4FF1E;
   --paper:#fff;
   /* минимальный кегль всей презентации = 32px на холсте 1500×844 */
   --min:32px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--paper)}
-body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 
-.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none}
-.deck::-webkit-scrollbar{display:none}
-.slide{position:relative;height:100vh;scroll-snap-align:start;overflow:hidden}
-.stage{position:absolute;left:50%;top:50%;width:1500px;height:844px;overflow:hidden;transform-origin:center;background:var(--paper)}
+.deck{width:100%}
+.slide{position:relative;height:100vh;overflow:hidden}
+.stage{position:absolute;left:50%;top:0;width:1500px;height:844px;overflow:hidden;transform-origin:top center;background:var(--paper)}
 .frame{position:absolute;left:56px;right:56px;top:52px;bottom:52px;display:flex;flex-direction:column}
 
 /* шапка слайда */
@@ -42,8 +42,17 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 
 /* ---------- работы ---------- */
 .works{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
-.card{position:relative;display:block;border-radius:28px;background:var(--card);overflow:hidden;color:inherit;text-decoration:none}
+.card{position:relative;display:block;border-radius:28px;background:var(--card);overflow:hidden;color:inherit;text-decoration:none;transition:background .25s ease,box-shadow .25s ease,transform .25s ease}
 .card.accent{background:var(--lime)}
+@media(hover:hover){
+  .card:hover{background:var(--lime);box-shadow:0 0 0 3px var(--glow),0 0 0 8px rgba(208,240,74,.35),0 14px 44px rgba(208,240,74,.55);transform:translateY(-4px)}
+  .card.accent:hover{background:var(--glow)}
+  .card:hover .sub{color:var(--ink)}
+  .mosaic a:hover{box-shadow:0 0 0 4px #fff,0 0 0 8px var(--glow),0 12px 32px rgba(120,160,0,.45);transform:translateY(-3px)}
+  .mosaic a:hover img{filter:brightness(1.06)}
+}
+.card:active{background:var(--glow);box-shadow:0 0 0 3px var(--glow);transform:scale(.985)}
+.mosaic a:active{box-shadow:0 0 0 4px #fff,0 0 0 8px var(--glow);transform:scale(.985)}
 .head{position:absolute;left:22px;right:22px;top:22px}
 .brand{margin-top:56px;font-size:48px;line-height:1.05;font-weight:600;letter-spacing:-.03em;white-space:nowrap}
 .sub{margin-top:4px;font-size:var(--min);line-height:1.15;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -70,10 +79,10 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .split p{margin-top:auto;font-size:var(--min);line-height:1.32;color:var(--ink)}
 .panel{background:var(--lime);border-radius:28px;padding:18px}
 .mosaic{height:100%;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:minmax(0,1fr) 206px;gap:12px}
-.mosaic a{position:relative;display:block;border-radius:18px}
+.mosaic a{position:relative;display:block;border-radius:18px;transition:box-shadow .25s ease,transform .25s ease}
 .mosaic a.v{grid-column:span 2}
 .mosaic a.h{grid-column:span 3}
-.mosaic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+.mosaic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;transition:filter .25s ease}
 
 /* ---------- контакты ---------- */
 .contacts{height:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -86,6 +95,58 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .contact.accent .url{color:var(--ink)}
 
 a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
+
+/* ---------- мобильная раскладка: сайт, а не презентация ---------- */
+@media (max-width: 900px){
+  :root{--min:15px}
+  html,body{height:auto}
+  .slide{height:auto;overflow:visible}
+  .stage{position:static;width:auto;height:auto;overflow:visible;transform:none!important}
+  .frame{position:static;display:block;padding:28px 16px 8px}
+  .slide:first-child .frame{padding-top:32px}
+  .slide:nth-child(2) .frame{padding-top:0}
+  .slide:nth-child(2) .title{display:none}
+  .slide:nth-child(2) .body{margin-top:10px}
+  .slide:last-child .frame{padding-bottom:40px}
+  .top{height:auto}
+  .eyebrow{font-size:12px}
+  .title,.title.first{margin:6px 0 0 -1px;font-size:40px;letter-spacing:-.04em}
+  .body,.title.first + .body{margin-top:16px}
+  .chip{height:26px;padding:0 10px;border-radius:13px;font-size:12px}
+  .chips{gap:6px}
+
+  .works{height:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{aspect-ratio:3/4;border-radius:18px}
+  .head{left:12px;right:12px;top:12px}
+  .brand{margin-top:10px;font-size:22px;white-space:normal}
+  .sub{margin-top:2px;font-size:13px}
+  .media{height:52%;border-radius:18px}
+
+  .services{height:auto;grid-template-columns:1fr;grid-template-rows:none;gap:10px}
+  .services .ref{grid-row:auto}
+  .svc{border-radius:18px;padding:14px 14px 16px}
+  .svc h2{margin-top:12px;font-size:24px}
+  .svc p{margin-top:8px;font-size:15px}
+  .price{margin-top:14px;padding-top:0;font-size:28px}
+  .feature{grid-column:auto;gap:12px;border-radius:18px;padding:14px}
+  .feature h3{font-size:22px}
+
+  .split{position:static;display:block}
+  .split h2{margin:6px 0 0 -1px;font-size:32px}
+  .split p{margin-top:12px;font-size:15px;line-height:1.35}
+  .panel{margin-top:16px;border-radius:18px;padding:10px}
+  .mosaic{height:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;gap:8px}
+  .mosaic a{border-radius:12px;aspect-ratio:1}
+  .mosaic a.v{grid-column:auto}
+  .mosaic a.h{grid-column:span 2;aspect-ratio:16/9}
+  .mosaic a.v:nth-child(3){grid-column:span 2;aspect-ratio:16/9}
+
+  .contacts{height:auto;grid-template-columns:1fr;gap:10px}
+  .contact{border-radius:18px;padding:14px 14px 16px}
+  .contact .go{right:12px;top:12px;width:32px;height:32px}
+  .handle{margin-top:22px;font-size:28px}
+  .url{margin-top:4px;font-size:14px}
+}
 
 @page{size:1500px 844px;margin:0}
 @media print{
@@ -214,26 +275,31 @@ COMBO.forEach(id=>{
 });
 
 /* длинные названия ужимаются в одну строку, но не меньше минимального кегля */
-function fitText(sel,max){
+function fitText(sel){
   document.querySelectorAll(sel).forEach(b=>{
-    let s=max; b.style.fontSize=s+'px';
-    while(b.scrollWidth>b.clientWidth && s>32){s--;b.style.fontSize=s+'px';}
+    b.style.fontSize='';
+    if(getComputedStyle(b).whiteSpace!=='nowrap')return;
+    const max=parseFloat(getComputedStyle(b).fontSize),min=max*.66;let s=max;
+    while(b.scrollWidth>b.clientWidth && s>min){s--;b.style.fontSize=s+'px';}
   });
 }
 
+/* десктоп: сцена 1500×844 масштабируется по ширине окна (не выше высоты окна),
+   секции идут подряд без пустот и без доводки — обычная прокрутка сайта.
+   мобильный (≤900px): сцена не масштабируется, работает адаптивная вёрстка из CSS. */
 const stages=[...document.querySelectorAll('.stage')];
-function fit(){const s=Math.min(innerWidth/1500,innerHeight/844);stages.forEach(st=>st.style.transform=`translate(-50%,-50%) scale(${s})`);}
-addEventListener('resize',fit);fit();
-
-const deck=document.getElementById('deck');
-addEventListener('keydown',e=>{
-  const n=['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)?1:['ArrowUp','ArrowLeft','PageUp'].includes(e.key)?-1:0;
-  if(!n)return;e.preventDefault();
-  const i=Math.round(deck.scrollTop/innerHeight)+n;
-  deck.scrollTo({top:Math.max(0,i)*innerHeight,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
-});
-
-document.fonts.ready.then(()=>{fitText('.brand',48);fitText('.handle',56);});
+const slides=[...document.querySelectorAll('.slide')];
+const mobile=matchMedia('(max-width:900px)');
+function fit(){
+  if(mobile.matches){stages.forEach(st=>st.style.transform='');slides.forEach(sl=>sl.style.height='');return;}
+  const s=Math.min(innerWidth/1500,innerHeight/844);
+  stages.forEach(st=>st.style.transform=`translateX(-50%) scale(${s})`);
+  slides.forEach(sl=>sl.style.height=Math.round(844*s)+'px');
+}
+let ft;
+function refit(){fit();clearTimeout(ft);ft=setTimeout(()=>{fitText('.brand');fitText('.handle');},80);}
+addEventListener('resize',refit);fit();
+document.fonts.ready.then(()=>{fitText('.brand');fitText('.handle');});
 </script>
 </body>
 </html>
