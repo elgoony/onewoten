@@ -40,33 +40,17 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .chip{height:42px;padding:0 17px;border-radius:21px;background:#fff;font-size:24px;font-weight:500;display:flex;align-items:center;white-space:nowrap;line-height:1}
 .chip.dark{background:var(--ink);color:#fff}
 
-/* ---------- первый экран: имя + коллаж всех работ ---------- */
+/* ---------- первый экран: имя, роль, стрелка ---------- */
+html{scroll-behavior:smooth}
 .hero .panel{position:absolute;inset:0;background:var(--lime);border-radius:28px;overflow:hidden}
-.hero .txt{position:absolute;left:48px;bottom:40px;z-index:20;pointer-events:none}
-.hero .word{font-size:150px;line-height:.92;font-weight:600;letter-spacing:-.06em;margin-left:-8px;white-space:nowrap}
-.hero .role{margin-top:16px;font-size:44px;line-height:1.05;font-weight:600;letter-spacing:-.035em}
-.hero .tr{position:absolute;right:48px;top:44px;z-index:20;display:inline-flex;align-items:center;gap:14px;font-size:var(--min);font-weight:500;color:var(--ink);text-decoration:none;line-height:1}
-.hero .tr i{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
-.hero .tr svg{width:13px;height:13px}
-.hero .works{position:absolute;inset:0}
-.hero .wc{position:absolute;display:block;text-decoration:none;color:#fff;z-index:calc(var(--i) + 1);
-  animation:float calc(4.6s + var(--i) * .45s) ease-in-out infinite;animation-delay:calc(var(--i) * -.9s)}
-.hero .wc:hover{z-index:50}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hero .in{position:absolute;inset:0;border-radius:20px;overflow:hidden;background:var(--card);transform:rotate(var(--r));
-  filter:grayscale(1) brightness(.96);box-shadow:0 16px 36px rgba(0,0,0,.2);will-change:transform,filter;
-  transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease,filter .7s ease}
-.hero .in img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.hero .in .chip{position:absolute;left:12px;top:12px;height:30px;padding:0 11px;border-radius:15px;background:#fff;color:var(--ink);font-size:16px;font-weight:500;display:flex;align-items:center;line-height:1;white-space:nowrap}
-.hero .in .cap{position:absolute;left:0;right:0;bottom:0;padding:56px 14px 14px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.7));display:flex;flex-direction:column;gap:1px}
-.hero .in .cap b{font-size:22px;line-height:1.05;font-weight:600;letter-spacing:-.03em}
-.hero .in .cap i{font-style:normal;font-size:15px;line-height:1.15;opacity:.85}
-@media(hover:hover){
-  .hero .wc:hover .in{transform:rotate(0deg) translateY(-18px) scale(1.06);filter:none;box-shadow:0 30px 60px rgba(0,0,0,.28)}
-}
-@media(hover:none){ .hero .in{filter:none} }
-.hero .wc:active .in{transform:rotate(0deg) scale(1.02);filter:none}
-@media (prefers-reduced-motion:reduce){ .hero .wc{animation:none} }
+.hero .txt{position:absolute;left:48px;bottom:40px}
+.hero .word{font-size:220px;line-height:.9;font-weight:600;letter-spacing:-.065em;margin-left:-12px;white-space:nowrap}
+.hero .role{margin-top:22px;font-size:56px;line-height:1.05;font-weight:600;letter-spacing:-.035em}
+.hero .down{position:absolute;left:50%;bottom:44px;width:64px;height:64px;margin-left:-32px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-decoration:none;
+  animation:pulse 2s ease-in-out infinite}
+.hero .down svg{width:22px;height:22px}
+@keyframes pulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 0 0 0 rgba(17,17,17,.35)}50%{transform:translateY(6px) scale(1.06);box-shadow:0 0 0 14px rgba(17,17,17,0)}}
+@media (prefers-reduced-motion:reduce){.hero .down{animation:none}}
 
 /* ---------- работы ---------- */
 .works{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
@@ -173,19 +157,12 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .contact .go{right:12px;top:12px;width:32px;height:32px}
   .handle{margin-top:22px;font-size:28px}
   .url{margin-top:4px;font-size:14px}
-  .hero .panel{position:static;display:block;border-radius:20px;padding:22px 0 16px;overflow:hidden}
-  .hero .txt{position:static;padding:0 18px;pointer-events:auto}
-  .hero .word{font-size:52px;margin-left:-2px}
-  .hero .role{margin-top:8px;font-size:24px}
-  .hero .tr{display:none}
-  .hero .works{position:static;display:flex;gap:12px;overflow-x:auto;padding:22px 18px 10px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .hero .works::-webkit-scrollbar{display:none}
-  .hero .wc{position:relative!important;left:auto!important;top:auto!important;flex:0 0 150px;width:150px!important;height:200px!important;scroll-snap-align:start}
-  .hero .in{border-radius:16px;transform:rotate(calc(var(--r) * .5))}
-  .hero .in .chip{left:10px;top:10px;height:26px;padding:0 9px;font-size:13px}
-  .hero .in .cap{padding:40px 12px 12px}
-  .hero .in .cap b{font-size:18px}
-  .hero .in .cap i{font-size:13px}
+  .hero .panel{position:relative;display:block;min-height:72vh;border-radius:20px;padding:22px 18px;overflow:hidden}
+  .hero .txt{position:absolute;left:18px;right:84px;bottom:22px}
+  .hero .word{font-size:60px;margin-left:-3px;white-space:normal}
+  .hero .role{margin-top:10px;font-size:24px}
+  .hero .down{left:auto;right:18px;bottom:22px;width:48px;height:48px;margin-left:0}
+  .hero .down svg{width:18px;height:18px}
 }
 
 @page{size:1500px 844px;margin:0}
@@ -202,15 +179,15 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 
 <!-- 0. ПЕРВЫЙ ЭКРАН -->
 <section class="slide hero"><main class="stage"><div class="frame"><div class="panel">
-  <div class="works" id="hero-works" aria-label="Все работы"></div>
   <div class="txt">
     <h1 class="word">onewoten</h1>
     <div class="role">ИИ-композитор<br>и саунд-дизайнер</div>
   </div>
+  <a class="down" href="#portfolio" aria-label="Листать вниз"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M5 13l7 7 7-7"/></svg></a>
 </div></div></main></section>
 
 <!-- 1. РАБОТЫ 1/2 -->
-<section class="slide"><main class="stage"><div class="frame">
+<section class="slide" id="portfolio"><main class="stage"><div class="frame">
   <h1 class="title first">Портфолио</h1>
   <div class="body"><section class="works" id="works1" aria-label="Работы, часть 1"></section></div>
 </div></main></section>
@@ -310,19 +287,6 @@ function card(w){
 }
 visible.slice(0,4).forEach(w=>document.getElementById('works1').appendChild(card(w)));
 visible.slice(4,8).forEach(w=>document.getElementById('works2').appendChild(card(w)));
-
-/* первый экран: коллаж всех работ. Координаты — внутри панели 1388×740 (десктоп) */
-const HERO=[[1126747019,80,70,250,160,4],[1213937432,380,40,180,250,-5],[1204216417,620,80,180,250,3],[1126747199,830,50,250,160,-3],
-  [1204216415,1140,130,180,250,-4],[1162266151,850,360,250,160,3],[1132286573,1130,410,250,160,-3],[1174736667,850,560,250,160,-4]];
-const heroWorks=document.getElementById('hero-works');
-HERO.forEach(([id,l,t,wd,ht,r],i)=>{
-  const w=WORKS.find(x=>x.id===id);
-  const a=document.createElement('a');
-  a.href=`https://vimeo.com/${id}`;a.target='_blank';a.rel='noopener';a.className='wc';
-  a.style.cssText=`left:${l}px;top:${t}px;width:${wd}px;height:${ht}px;--r:${r}deg;--i:${i}`;
-  a.innerHTML=`<div class="in"><img src="${w.img}" alt="${w.brand}${w.sub?' — '+w.sub:''}" style="object-position:${w.pos||'50% 50%'}"><span class="chip">${w.role}</span><span class="cap"><b>${w.brand}</b>${w.sub?`<i>${w.sub}</i>`:''}</span></div>`;
-  heroWorks.appendChild(a);
-});
 
 /* композиция «монтаж + музыка» */
 const COMBO=[1213937432,1204216417,1204216415,1162266151,1132286573];
