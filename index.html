@@ -148,11 +148,10 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .split h2{margin:6px 0 0 -1px;font-size:32px}
   .split p{margin-top:12px;font-size:15px;line-height:1.35}
   .panel{margin-top:16px;border-radius:18px;padding:10px}
-  .mosaic{height:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;gap:8px}
-  .mosaic a{border-radius:12px;aspect-ratio:1}
-  .mosaic a.v{grid-column:auto}
-  .mosaic a.h{grid-column:span 2;aspect-ratio:16/9}
-  .mosaic a.v:nth-child(3){grid-column:span 2;aspect-ratio:16/9}
+  .mosaic{height:auto;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:none;gap:8px}
+  .mosaic a{border-radius:12px;grid-column:span 2;aspect-ratio:1}
+  .mosaic a.v{grid-column:span 2;aspect-ratio:1}
+  .mosaic a.h{grid-column:span 3;aspect-ratio:3/2}
 
   .contacts{height:auto;grid-template-columns:1fr;gap:10px}
   .contact{border-radius:18px;padding:14px 14px 16px}
