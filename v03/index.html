@@ -62,7 +62,7 @@ html{scroll-behavior:smooth}
 @media(hover:hover){
   .card:hover{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
   .card:hover .sub{color:var(--ink)}
-  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 0 0 11px rgba(230,65,26,.35),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
+  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
   .mosaic a:hover img{filter:brightness(1.06)}
 }
 .card:active{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35);transform:scale(.985)}
@@ -279,9 +279,9 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .contact:hover .chip{background:rgba(255,255,255,.2);color:#fff}
   .contact:hover .go{background:#fff;color:#E6411A}
   /* мозаика «Монтаж и музыка»: обводка одного тона — как у карточек */
-  .mosaic a:hover{box-shadow:0 0 0 6px rgba(230,65,26,.35),0 14px 44px rgba(230,65,26,.55)}
+  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(230,65,26,.55)}
 }
-.mosaic a:active{box-shadow:0 0 0 6px rgba(230,65,26,.35)}
+.mosaic a:active{box-shadow:0 0 0 5px var(--lime)}
 
 </style>
 </head>
