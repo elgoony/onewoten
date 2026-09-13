@@ -816,89 +816,59 @@ document.fonts.ready.then(boot);
     if (w) lbOpen(w.id, w.brand + (w.sub ? ' — ' + w.sub : ''), w.vertical, null, 'https://vimeo.com/' + w.id); } }
 </script>
 <style>
-/* ===== стартовый экран: на виду только лаймовая кнопка ===== */
+/* ===== вступление: на экране одна кнопка, работы проявляются ===== */
 .intro .tile,.intro .plate{opacity:0;pointer-events:none}
-.intro .core{cursor:pointer;animation:levitate 3.4s ease-in-out infinite;
-  box-shadow:0 0 0 7px rgba(208,240,74,.5),0 26px 70px rgba(208,240,74,.42)}
-@keyframes levitate{0%,100%{transform:translateY(-6px)}50%{transform:translateY(6px)}}
-@media (max-width:1000px){
-  .intro .core{animation-name:levitateM}
-  @keyframes levitateM{0%,100%{transform:translateY(-4px)}50%{transform:translateY(4px)}}
-  .intro .v01,.intro .drop{opacity:0;pointer-events:none}
-}
-.core.lifted{box-shadow:0 0 0 7px rgba(208,240,74,0),0 26px 70px rgba(208,240,74,0);
-  transition:box-shadow .9s ease}
+@media (max-width:1000px){ .intro .v01,.intro .drop{opacity:0;pointer-events:none} }
 
-/* ===== переключатель вариантов ===== */
-.vbar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;display:flex;gap:6px;
-  align-items:center;background:rgba(17,17,17,.9);backdrop-filter:blur(8px);border-radius:999px;
-  padding:7px;font-family:"Onest",system-ui,sans-serif;opacity:0;pointer-events:none;
+/* покой: кнопка чёрно-белая, без обводки, подписи не видно */
+body .core{transition:left var(--move) var(--ease),top var(--move) var(--ease),
+  width var(--move) var(--ease),height var(--move) var(--ease),
+  box-shadow .55s ease,filter .55s ease}
+.intro .core{cursor:pointer;filter:grayscale(1);box-shadow:none}
+.intro .core .role{opacity:0;transition:opacity .45s ease .08s}
+
+/* разбуженная: лайм, подпись и лаймовая обводка — и так и остаётся */
+.intro .core.woke{filter:none;box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(208,240,74,.5)}
+.intro .core.woke .role{opacity:1}
+
+/* после проявления обводка мягко гаснет */
+.core.lifted{box-shadow:0 0 0 5px rgba(208,240,74,0),0 16px 46px rgba(208,240,74,0)}
+
+.again{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;
+  border:0;background:rgba(17,17,17,.9);backdrop-filter:blur(8px);color:var(--lime);
+  font-family:"Onest",system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:-.01em;
+  padding:11px 22px;border-radius:999px;cursor:pointer;opacity:0;pointer-events:none;
   transition:opacity .4s ease}
-.vbar.on{opacity:1;pointer-events:auto}
-.vbar button{border:0;background:transparent;color:#fff;font-family:inherit;font-size:14px;
-  font-weight:600;letter-spacing:-.01em;padding:9px 16px;border-radius:999px;cursor:pointer;
-  white-space:nowrap;transition:background .2s ease,color .2s ease}
-.vbar button[aria-current="true"]{background:var(--lime);color:#111}
-.vbar .sep{width:1px;height:22px;background:rgba(255,255,255,.22);margin:0 3px}
-.vbar .again{color:var(--lime)}
-@media (max-width:1000px){.vbar{bottom:12px;padding:5px}.vbar button{font-size:13px;padding:8px 12px}}
+.again.on{opacity:1;pointer-events:auto}
+@media (max-width:1000px){.again{bottom:12px;font-size:13px;padding:10px 18px}}
 </style>
 
-<div class="vbar" id="vbar" role="group" aria-label="Вариант разлёта">
-  <button data-v="a">А Разлёт</button>
-  <button data-v="b">Б Веер</button>
-  <button data-v="c">В Проявление</button>
-  <span class="sep"></span>
-  <button class="again" id="again">Ещё раз</button>
-</div>
+<button class="again" id="again">Ещё раз</button>
 
 <script>
 (() => {
   const grid  = document.getElementById('grid');
   const core  = document.getElementById('core');
   const stage = document.getElementById('stage');
-  const vbar  = document.getElementById('vbar');
+  const again = document.getElementById('again');
   const app   = document.querySelector('.app');
+  const canHover = matchMedia('(hover:hover)').matches;
 
-  const VARIANTS = {
-    /* по прямой из кнопки, с лёгким перелётом; задержка тем больше, чем дальше плитка */
-    a: {dur:780, ease:'cubic-bezier(.18,.92,.3,1.06)', lead:300,
-        start:(d) => 'translate(' + d.dx + 'px,' + d.dy + 'px) scale(.3)',
-        delay:(d) => d.far * 260},
-    /* колодой: плитки выходят стопкой и разворачиваются по очереди */
-    b: {dur:860, ease:'cubic-bezier(.2,.86,.24,1)', lead:340,
-        start:(d) => 'translate(' + d.dx * .82 + 'px,' + d.dy * .82 + 'px) scale(.26) rotate(' +
-                     ((d.i % 2 ? 1 : -1) * (16 + d.i * 5)) + 'deg)',
-        delay:(d) => d.i * 72},
-    /* не летят, а собираются на своих местах волной от центра */
-    c: {dur:720, ease:'cubic-bezier(.25,1,.3,1)', lead:420, blur:9,
-        start:() => 'scale(.86)',
-        delay:(d) => d.far * 430}
-  };
+  const DUR = 720, EASE = 'cubic-bezier(.25,1,.3,1)', SPREAD = 430, BLUR = 9, IDLE = 10000;
+  let busy = false, timer = null;
 
   const items = () => [...grid.querySelectorAll('.tile, .plate')];
-  let current = (new URLSearchParams(location.search).get('v') || 'a').toLowerCase();
-  if (!VARIANTS[current]) current = 'a';
-  let busy = false;
 
-  function scale(){
-    const r = stage.getBoundingClientRect();
-    return stage.offsetWidth ? r.width / stage.offsetWidth : 1;
-  }
-
+  /* задержка тем больше, чем дальше плитка от кнопки — волна от центра наружу */
   function measure(){
-    const s = scale() || 1;
+    const s = stage.offsetWidth ? stage.getBoundingClientRect().width / stage.offsetWidth : 1;
     const cr = core.getBoundingClientRect();
     const cx = cr.left + cr.width / 2, cy = cr.top + cr.height / 2;
-    const list = items().map((el, i) => {
+    const list = items().map(el => {
       const r = el.getBoundingClientRect();
-      let dx = (cx - (r.left + r.width / 2)) / s;
-      let dy = (cy - (r.top + r.height / 2)) / s;
-      const d = Math.hypot(dx, dy);
-      /* на телефоне страница длинная — иначе плитки летели бы из-за экрана */
-      const cap = 760;
-      if (d > cap){ const k = cap / d; dx *= k; dy *= k; }
-      return {el, i, dx, dy, d};
+      const dx = (cx - (r.left + r.width / 2)) / (s || 1);
+      const dy = (cy - (r.top + r.height / 2)) / (s || 1);
+      return {el, d: Math.hypot(dx, dy)};
     });
     const max = Math.max(1, ...list.map(o => o.d));
     list.forEach(o => o.far = o.d / max);
@@ -907,63 +877,62 @@ document.fonts.ready.then(boot);
 
   function reset(){
     busy = false;
+    clearTimeout(timer);
     document.body.classList.add('intro');
-    core.classList.remove('lifted');
-    vbar.classList.remove('on');
-    const v = VARIANTS[current];
-    measure().forEach(d => {
-      const el = d.el;
+    core.classList.remove('woke', 'lifted');
+    again.classList.remove('on');
+    measure().forEach(o => {
+      const el = o.el;
       el.style.transition = 'none';
-      el.style.transform = v.start(d);
+      el.style.transform = 'scale(.86)';
+      el.style.filter = 'blur(' + BLUR + 'px)';
       el.style.opacity = '0';
-      el.style.filter = v.blur ? 'blur(' + v.blur + 'px)' : '';
-      el.dataset.delay = Math.round(v.delay(d));
+      el.dataset.delay = Math.round(o.far * SPREAD);
     });
-    [...vbar.querySelectorAll('[data-v]')].forEach(b =>
-      b.setAttribute('aria-current', b.dataset.v === current ? 'true' : 'false'));
+    timer = setTimeout(reveal, IDLE);   /* без действий работы проявятся сами */
   }
 
-  function fly(){
+  function wake(){
+    if (busy) return;
+    core.classList.add('woke');
+  }
+
+  function reveal(){
     if (busy) return;
     busy = true;
-    const v = VARIANTS[current];
-    core.classList.add('lifted');
+    clearTimeout(timer);
+    core.classList.add('woke', 'lifted');
     document.body.classList.remove('intro');
     const list = items();
     list.forEach(el => {
       const del = +el.dataset.delay || 0;
       el.style.transition =
-        'transform ' + v.dur + 'ms ' + v.ease + ' ' + del + 'ms,' +
-        'opacity ' + Math.round(v.dur * .55) + 'ms ease ' + del + 'ms,' +
-        'filter ' + v.dur + 'ms ease ' + del + 'ms';
+        'transform ' + DUR + 'ms ' + EASE + ' ' + del + 'ms,' +
+        'opacity ' + Math.round(DUR * .6) + 'ms ease ' + del + 'ms,' +
+        'filter ' + DUR + 'ms ease ' + del + 'ms';
       el.style.transform = '';
       el.style.opacity = '';
       el.style.filter = '';
     });
-    const total = v.dur + v.lead + 120;
     setTimeout(() => {
       list.forEach(el => { el.style.transition = ''; el.style.transform = ''; el.style.filter = ''; });
-      vbar.classList.add('on');
+      again.classList.add('on');
       busy = false;
-    }, total);
+    }, DUR + SPREAD + 120);
   }
 
-  /* пока идёт вступление, нажатие на кнопку запускает разлёт, а не открывает панель */
+  core.addEventListener('mouseenter', () => { if (document.body.classList.contains('intro')) wake(); });
+
   app.addEventListener('click', e => {
     if (!document.body.classList.contains('intro')) return;
     if (!e.target.closest('.core')) return;
     e.stopPropagation();
-    fly();
+    /* на сенсорном экране наведения нет: первое касание будит кнопку, работы идут следом */
+    if (!canHover && !core.classList.contains('woke')){ wake(); setTimeout(reveal, 900); return; }
+    reveal();
   }, true);
 
-  vbar.addEventListener('click', e => {
-    const b = e.target.closest('button');
-    if (!b) return;
-    if (b.dataset.v){ current = b.dataset.v; history.replaceState(null, '', '?v=' + current); }
-    reset();
-    setTimeout(fly, 420);
-  });
-
+  again.addEventListener('click', () => { reset(); });
   addEventListener('resize', () => { if (document.body.classList.contains('intro')) reset(); });
   document.fonts.ready.then(() => setTimeout(reset, 60));
   setTimeout(reset, 200);
