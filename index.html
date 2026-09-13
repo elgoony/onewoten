@@ -162,12 +162,13 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .contact .go{right:12px;top:12px;width:32px;height:32px}
   .handle{margin-top:22px;font-size:28px}
   .url{margin-top:4px;font-size:14px}
-  .hero .panel{position:relative;display:block;min-height:72vh;border-radius:20px;padding:22px 18px;overflow:hidden}
-  .hero .txt{position:absolute;left:18px;right:18px;top:50%;transform:translateY(-60%)}
-  .hero .word{font-size:62px;letter-spacing:-.06em}
-  .hero .role{margin-top:10px;font-size:22px}
+  .hero .panel{position:relative;display:block;min-height:0;border-radius:16px;
+    padding:34px 18px 36px;overflow:hidden}
+  .hero .txt{position:static;left:auto;right:auto;top:auto;transform:none;text-align:center}
+  .hero .word{font-size:clamp(46px,14vw,84px);line-height:1;letter-spacing:-.055em}
+  .hero .role{margin-top:10px;font-size:14px;font-weight:500;line-height:1.25;
+    letter-spacing:.16em;text-transform:uppercase}
   .hero .go{display:none}
-  .hero .txt{transform:translateY(-50%)}
 }
 
 /* ---------- плеер поверх сайта: кадр вырастает из карточки ---------- */
@@ -230,9 +231,9 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .handle{margin-top:16px;font-size:19px}
   .url{margin-top:2px;font-size:10px}
 
-  .hero .panel{min-height:calc(100vh - 20px);min-height:calc(100dvh - 20px);padding:16px}
+  .hero .panel{min-height:0;padding:26px 16px 28px}
   .hero .word{font-size:46px}
-  .hero .role{margin-top:6px;font-size:16px}
+  .hero .role{margin-top:8px;font-size:13px}
 }
 
 @page{size:1500px 844px;margin:0}
