@@ -177,7 +177,9 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 @media (max-width: 900px){
   .lb{padding:0}
   .lb video{max-width:100vw;max-height:100vh;max-height:100dvh;border-radius:0}
-  .lb .x{right:10px;top:calc(74px + env(safe-area-inset-top));width:34px;height:34px;font-size:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px)}
+  .lb .x{display:none}
+  .lb video{transition:transform .28s cubic-bezier(.22,1,.36,1)}
+  .lb.drag video{transition:none}
   .lb .cap{left:14px;bottom:calc(62px + env(safe-area-inset-bottom));font-size:14px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 }
 
@@ -359,7 +361,7 @@ function lbOpen(id,title,poster,fallback){
   history.replaceState(null,'','#v='+id);
   const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
 }
-function lbClose(){if(!lb.classList.contains('on'))return;lb.classList.remove('on');
+function lbClose(){if(!lb.classList.contains('on'))return;lb.classList.remove('on');lb.classList.remove('drag');if(lbVideo)lbVideo.style.transform='';lb.style.background='';
   if(lbVideo){lbVideo.pause();lbVideo.removeAttribute('src');lbVideo.load();lbVideo.remove();lbVideo=null}
   document.documentElement.style.overflow='';history.replaceState(null,'',location.pathname)}
 document.querySelectorAll('.card, .mosaic a').forEach(a=>{
@@ -369,6 +371,21 @@ document.querySelectorAll('.card, .mosaic a').forEach(a=>{
     lbOpen(id,w?w.brand+(w.sub?' — '+w.sub:''):'',a.querySelector('img')?.src,a.href)});
 });
 document.getElementById('lb-x').addEventListener('click',lbClose);
+/* телефон: смахивание вниз закрывает видео */
+if(matchMedia('(hover:none)').matches){
+  let y0=0,x0=0,dy=0,drag=false;
+  lb.addEventListener('touchstart',e=>{if(!lbVideo||e.touches.length!==1)return;
+    y0=e.touches[0].clientY;x0=e.touches[0].clientX;dy=0;drag=false;},{passive:true,capture:true});
+  lb.addEventListener('touchmove',e=>{if(!lbVideo||e.touches.length!==1)return;
+    const cy=e.touches[0].clientY-y0,cx=e.touches[0].clientX-x0;
+    if(!drag){if(cy>12&&Math.abs(cy)>Math.abs(cx)*1.4){drag=true;lb.classList.add('drag')}else if(Math.abs(cx)>12)return}
+    if(drag){dy=Math.max(0,cy);lbVideo.style.transform='translateY('+dy+'px) scale('+(1-Math.min(dy/1400,.12))+')';
+      lb.style.background='rgba(0,0,0,'+(0.9-Math.min(dy/700,.55))+')'}},{passive:true,capture:true});
+  lb.addEventListener('touchend',()=>{if(!lbVideo)return;lb.classList.remove('drag');
+    if(drag&&dy>90){lbVideo.style.transform='translateY(100vh)';lb.style.background='rgba(0,0,0,0)';setTimeout(()=>{lbClose();lb.style.background=''},240)}
+    else{lbVideo.style.transform='';lb.style.background=''}
+    drag=false;dy=0;},{passive:true,capture:true});
+}
 lb.addEventListener('click',e=>{if(e.target===lb)lbClose()});
 addEventListener('keydown',e=>{if(e.key==='Escape')lbClose()});
 {const m=location.hash.match(/v=(\d+)/);if(m){const w=WORKS.find(x=>x.id==m[1]);
