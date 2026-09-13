@@ -171,14 +171,15 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 }
 
 /* ---------- плеер поверх сайта: кадр вырастает из карточки ---------- */
-.lb{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;display:none;transition:background .35s ease}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;display:none;transition:background .6s cubic-bezier(.32,.9,.24,1)}
 .lb.on{display:block}
 .lb.dim{background:rgba(0,0,0,.9)}
 .fly{position:fixed;z-index:101;border-radius:24px;overflow:hidden;background:#000;will-change:left,top,width,height;
-  transition:left .55s cubic-bezier(.22,1,.36,1),top .55s cubic-bezier(.22,1,.36,1),width .55s cubic-bezier(.22,1,.36,1),height .55s cubic-bezier(.22,1,.36,1),border-radius .45s ease,transform .28s cubic-bezier(.22,1,.36,1),opacity .3s ease}
+  transition:left .78s cubic-bezier(.32,.9,.24,1),top .78s cubic-bezier(.32,.9,.24,1),width .78s cubic-bezier(.32,.9,.24,1),height .78s cubic-bezier(.32,.9,.24,1),border-radius .6s ease,transform .3s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+.fly.instant{transition:opacity .28s ease}
 .fly.drag{transition:none}
-.fly img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .3s ease}
-.fly video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;background:#000}
+.fly img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
+.fly video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .7s cubic-bezier(.4,0,.2,1);background:#000}
 .fly.playing video{opacity:1}
 .fly.playing img{opacity:0}
 .lb .cap{position:fixed;left:24px;bottom:20px;color:#fff;font-size:18px;font-weight:500;opacity:0;transition:opacity .3s ease .25s;z-index:102}
@@ -410,34 +411,40 @@ function unlockScroll(){document.body.style.position='';document.body.style.top=
   document.documentElement.style.overflow='';
   const b=document.documentElement.style.scrollBehavior;document.documentElement.style.scrollBehavior='auto';
   window.scrollTo(0,lockY);document.documentElement.style.scrollBehavior=b;}
+const isPhone=()=>innerWidth<=900;
 function lbBox(vertical){
-  const mob=innerWidth<=900,pad=mob?0:24;
-  const maxW=innerWidth-pad*2,maxH=innerHeight-pad*2;
+  if(isPhone())return{w:innerWidth,h:innerHeight,left:0,top:0};
+  const maxW=innerWidth-48,maxH=innerHeight-48;
   let w,h;
-  if(vertical){h=Math.min(maxH,mob?maxH:innerHeight*0.86);w=h*9/16;if(w>maxW){w=maxW;h=w*16/9}}
+  if(vertical){h=Math.min(maxH,innerHeight*0.86);w=h*9/16;if(w>maxW){w=maxW;h=w*16/9}}
   else{w=Math.min(maxW,1280);h=w*9/16;if(h>maxH){h=maxH;w=h*16/9}}
   return{w,h,left:(innerWidth-w)/2,top:(innerHeight-h)/2};
 }
 function lbOpen(id,title,vertical,img,fallback){
   if(fly)return;
-  const t=lbBox(vertical);
-  const r=img?img.getBoundingClientRect():{left:t.left+t.w/2,top:t.top+t.h/2,width:0,height:0};
+  const t=lbBox(vertical),phone=isPhone();
+  const r=(img&&!phone)?img.getBoundingClientRect():{left:t.left,top:t.top,width:t.w,height:t.h};
   fromRect={left:r.left,top:r.top,width:r.width,height:r.height};
-  fly=document.createElement('div');fly.className='fly';
-  fly.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
-  if(img){const c=document.createElement('img');c.src=img.src;c.style.objectPosition=getComputedStyle(img).objectPosition;fly.appendChild(c)}
+  fly=document.createElement('div');fly.className='fly'+(phone?' instant':'');
+  fly.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`+(phone?';opacity:0;border-radius:0':'');
+  if(img&&!phone){const c=document.createElement('img');c.src=img.src;c.style.objectPosition=getComputedStyle(img).objectPosition;fly.appendChild(c)}
   const v=document.createElement('video');
   v.src='video/'+id+'.mp4';v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';
   v.addEventListener('error',()=>{lbClose();window.open(fallback,'_blank','noopener')});
-  v.addEventListener('playing',()=>{fly&&fly.classList.add('playing')},{once:true});
+  let ready=false,settled=phone;
+  const reveal=()=>{if(ready&&settled&&fly)fly.classList.add('playing')};
+  v.addEventListener('playing',()=>{ready=true;reveal()},{once:true});
+  v.addEventListener('webkitendfullscreen',lbClose);
+  if(!phone){fly.addEventListener('transitionend',e=>{if(e.propertyName==='width'){settled=true;reveal()}});
+    setTimeout(()=>{settled=true;reveal()},900);}
   v.addEventListener('click',e=>{e.stopPropagation();v.controls=!v.controls});
   fly.appendChild(v);lbVideo=v;
   document.body.appendChild(fly);
   lb.classList.add('on');lbCap.textContent=title||'';
   requestAnimationFrame(()=>{
     lb.classList.add('dim');
-    fly.style.left=t.left+'px';fly.style.top=t.top+'px';fly.style.width=t.w+'px';fly.style.height=t.h+'px';
-    fly.style.borderRadius=innerWidth<=900?'0':'20px';
+    if(phone){fly.style.opacity='1'}
+    else{fly.style.left=t.left+'px';fly.style.top=t.top+'px';fly.style.width=t.w+'px';fly.style.height=t.h+'px';fly.style.borderRadius='20px'}
   });
   const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
   lockScroll();
