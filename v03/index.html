@@ -263,8 +263,6 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .hero .shot > div{background-size:cover}
   .hero .top{position:static;left:auto;right:auto;top:auto;order:-1;padding:6px 2px 0}
   .hero .eyebrow{color:var(--muted);font-size:11px;letter-spacing:.14em}
-  /* телефон: обе работы Сбера уходят в конец списка */
-  #works2 .card[data-brand="Сбер"]{order:2}
 }
 
 /* ───────── палитра A «Бумага» ───────── */
@@ -284,6 +282,56 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 }
 .mosaic a:active{box-shadow:0 0 0 5px var(--lime)}
 
+/* ───────── работы плитками, как в v02 ───────── */
+.slide.works-slide{margin-top:14px}
+.hero .go span{display:none}
+.works-slide .body{margin-top:0}
+.works{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(0,1fr));gap:14px}
+.card{position:relative;display:block;border-radius:18px;overflow:hidden;background:var(--card);
+  color:inherit;text-decoration:none;transition:transform .3s ease,box-shadow .28s ease}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),filter .3s ease}
+.card .shade{position:absolute;left:0;right:0;bottom:0;height:58%;z-index:2;
+  background:linear-gradient(transparent,rgba(0,0,0,.66))}
+.card .role{position:absolute;left:15px;top:14px;z-index:3;max-width:calc(100% - 62px);font-size:15px;
+  font-weight:500;letter-spacing:.01em;color:var(--ink);background:var(--paper);padding:5px 11px;
+  border-radius:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .cap{position:absolute;left:17px;right:17px;bottom:13px;z-index:3}
+.card .brand{margin-top:0;font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1.04;color:#fff;
+  white-space:nowrap}
+.card .sub{margin-top:2px;font-size:17px;font-weight:500;line-height:1.15;color:rgba(255,255,255,.76);
+  display:block;overflow:visible}
+.card .play{position:absolute;right:15px;top:14px;z-index:3;width:36px;height:36px;border-radius:50%;
+  background:rgba(17,17,17,.55);backdrop-filter:blur(6px);display:grid;place-items:center;
+  opacity:0;transform:scale(.8);transition:opacity .25s ease,transform .25s cubic-bezier(.22,1,.36,1)}
+.card .play svg{width:12px;height:14px;fill:#fff;margin-left:2px}
+@media(hover:hover){
+  .card:hover{background:var(--card);color:inherit;
+    box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5);transform:translateY(-5px)}
+  .card:hover img{transform:scale(1.045);filter:brightness(1.06)}
+  .card:hover .play{opacity:1;transform:scale(1)}
+  .card:hover .brand,.card:hover .sub{color:inherit}
+  .card:hover .brand{color:#fff}
+  .card:hover .sub{color:rgba(255,255,255,.76)}
+  .card:hover .role{background:var(--paper);color:var(--ink)}
+}
+.card:active{background:var(--card);box-shadow:none;transform:scale(.984)}
+@media (max-width:900px){
+  /* телефон: кадр и работы идут встык, сетка в два столбца — как в v02 */
+  .slide.works-slide{margin-top:0}
+  .slide:first-child .frame{padding-bottom:0}
+  .slide.works-slide .frame{padding:10px 12px 0}
+  .works{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;gap:10px}
+  .card{aspect-ratio:3/4;border-radius:14px}
+  .card .role{font-size:11px;padding:4px 8px;border-radius:10px;left:9px;top:9px;max-width:calc(100% - 18px)}
+  .card .cap{left:11px;right:11px;bottom:10px}
+  .card .brand{font-size:20px}
+  .card .sub{font-size:13px}
+  .card .play{display:none}
+  #works1 .card[data-brand="Сбер"]{order:2}
+}
+
 </style>
 </head>
 <body>
@@ -297,16 +345,9 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   <a class="go" href="#portfolio"><span>Портфолио</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M5 13l7 7 7-7"/></svg></i></a>
 </div></div></main></section>
 
-<!-- 1. РАБОТЫ 1/2 -->
-<section class="slide" id="portfolio"><main class="stage"><div class="frame">
-  <h1 class="title first">Портфолио</h1>
-  <div class="body"><section class="works" id="works1" aria-label="Работы, часть 1"></section></div>
-</div></main></section>
-
-<!-- 2. РАБОТЫ 2/2 -->
-<section class="slide"><main class="stage"><div class="frame">
-  <h1 class="title first">Портфолио</h1>
-  <div class="body"><section class="works" id="works2" aria-label="Работы, часть 2"></section></div>
+<!-- 1. РАБОТЫ -->
+<section class="slide works-slide" id="portfolio"><main class="stage"><div class="frame">
+  <div class="body"><section class="works" id="works1" aria-label="Работы"></section></div>
 </div></main></section>
 
 <!-- 3. ФОРМАТЫ РАБОТЫ -->
@@ -390,16 +431,14 @@ function card(w){
   el.href=`https://vimeo.com/${w.id}`;el.target='_blank';el.rel='noopener';
   el.className='card'+(w.accent?' accent':'');el.dataset.brand=w.brand;
   el.innerHTML=`
-    <div class="head">
-      <div class="chips">${w.role?`<span class="chip">${w.role}</span>`:''}</div>
-      <div class="brand">${w.brand}</div>
-      ${w.sub?`<div class="sub">${w.sub}</div>`:''}
-    </div>
-    <div class="media"><img src="${w.img}" alt="${w.brand}${w.sub?' — '+w.sub:''}" style="object-position:${w.pos||'50% 50%'}"></div>`;
+    <img src="${w.img}" alt="${w.brand}${w.sub?' — '+w.sub:''}" style="object-position:${w.pos||'50% 50%'}">
+    <div class="shade"></div>
+    ${w.role?`<div class="role">${w.role}</div>`:''}
+    <div class="play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></div>
+    <div class="cap"><div class="brand">${w.brand}</div>${w.sub?`<div class="sub">${w.sub}</div>`:''}</div>`;
   return el;
 }
-visible.slice(0,4).forEach(w=>document.getElementById('works1').appendChild(card(w)));
-visible.slice(4,8).forEach(w=>document.getElementById('works2').appendChild(card(w)));
+visible.forEach(w=>document.getElementById('works1').appendChild(card(w)));
 
 /* композиция «монтаж + музыка» */
 const COMBO=[1213937432,1204216417,1204216415,1162266151,1132286573];
@@ -430,10 +469,14 @@ const stages=[...document.querySelectorAll('.stage')];
 const slides=[...document.querySelectorAll('.slide')];
 const mobile=matchMedia('(max-width:900px)');
 function fit(){
-  if(mobile.matches){stages.forEach(st=>st.style.transform='');slides.forEach(sl=>sl.style.height='');return;}
+  const ws=document.querySelector('.works-slide');
+  if(mobile.matches){stages.forEach(st=>st.style.transform='');slides.forEach(sl=>sl.style.height='');
+    if(ws)ws.style.marginTop='';return;}
   const s=Math.min(innerWidth/1500,innerHeight/844);
   stages.forEach(st=>st.style.transform=`translateX(-50%) scale(${s})`);
   slides.forEach(sl=>sl.style.height=Math.round(844*s)+'px');
+  /* кадр титула и первый ряд работ разделяет ровно 14 единиц холста, как плитки в v02 */
+  if(ws)ws.style.marginTop=Math.round(-(52+52-14)*s)+'px';
 }
 let ft;
 function refit(){fit();clearTimeout(ft);ft=setTimeout(()=>{fitText('.brand');fitText('.handle');},80);}
