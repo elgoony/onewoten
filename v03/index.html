@@ -256,14 +256,12 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .hero .go i{color:#fff}
 .hero .go svg{width:34px;height:34px}
 @media (max-width:900px){
-  .hero .panel{padding:0;min-height:calc(100vh - 24px);min-height:calc(100dvh - 24px)}
-  .hero .shot > div{background-size:contain}
-  .hero .top{left:16px;right:16px;top:18px}
-  .hero .eyebrow{font-size:10px;letter-spacing:.16em;color:rgba(255,255,255,.9)}
-}
-@media (max-width:900px) and (orientation:landscape){
+  /* телефон: кадр в своих пропорциях, подпись над ним по бумаге */
+  .hero .panel{min-height:0;padding:0;background:none;border-radius:0;display:flex;flex-direction:column;gap:12px}
+  .hero .shot{position:relative;inset:auto;aspect-ratio:2200/1228;border-radius:14px;overflow:hidden}
   .hero .shot > div{background-size:cover}
-  .hero .top{left:14px;right:14px;top:12px}
+  .hero .top{position:static;left:auto;right:auto;top:auto;order:-1;padding:6px 2px 0}
+  .hero .eyebrow{color:var(--muted);font-size:11px;letter-spacing:.14em}
 }
 
 /* ───────── палитра A «Бумага» ───────── */
