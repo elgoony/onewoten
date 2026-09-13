@@ -86,7 +86,8 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
              width var(--move) var(--ease),height var(--move) var(--ease),
              box-shadow .5s ease}
 .core.open{box-shadow:0 40px 120px rgba(17,17,17,.28)}
-.core.switching{transition-duration:.46s}
+.core.switching{transition-duration:.3s}
+.core.switching .pane{transition-duration:.14s}
 
 .core-head{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:20px;overflow:hidden;
@@ -115,8 +116,8 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .tab[aria-selected="true"]{background:var(--ink);color:var(--lime)}
 
 .panes{position:relative;flex:1;min-height:0}
-.pane{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
-  padding:0 9px 9px 0;scrollbar-width:none;-ms-overflow-style:none;
+.pane{position:absolute;inset:0;overflow:visible;
+  scrollbar-width:none;-ms-overflow-style:none;
   opacity:0;pointer-events:none;transform:translateY(10px);
   transition:opacity .3s ease,transform .34s var(--ease)}
 .pane::-webkit-scrollbar{width:0;height:0;display:none}
@@ -143,12 +144,12 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .cts .ct{min-height:252px}
 .ct{position:relative;background:var(--paper);border-radius:16px;padding:18px 18px 20px;
   display:flex;flex-direction:column;color:inherit;text-decoration:none;
-  outline:2px solid transparent;outline-offset:-2px;
-  transition:transform .22s var(--ease),box-shadow .22s ease,outline-color .22s ease}
+  transition:transform .25s var(--ease),box-shadow .25s ease}
 @media (hover:hover){
-  .ct:hover{transform:translate(-4px,-4px);box-shadow:6px 6px 0 var(--ink);outline-color:var(--ink)}
+  .ct:hover{transform:translateY(-5px);
+    box-shadow:0 0 0 5px #fff,0 14px 34px rgba(255,255,255,.6)}
 }
-.ct:active{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink);outline-color:var(--ink)}
+.ct:active{transform:translateY(-2px);box-shadow:0 0 0 5px #fff,0 8px 20px rgba(255,255,255,.55)}
 .ct .go{position:absolute;right:16px;top:16px;width:34px;height:34px;border-radius:50%;
   background:var(--ink);display:grid;place-items:center}
 .ct .go svg{width:11px;height:11px;stroke:#fff;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -501,16 +502,16 @@ function showPane(which){
      проявляется на уже вставшем месте. Иначе строки перевёрстываются на ходу */
   paneSvc.classList.remove('on');
   paneCts.classList.remove('on');
+  core.classList.add('switching');
   setTimeout(() => {
     if (seq !== switchSeq || !isOpen) return;
-    core.classList.add('switching');
     placeCore();
     setTimeout(() => {
       if (seq !== switchSeq || !isOpen) return;
       core.classList.remove('switching');
       activate(which);
-    }, 500);
-  }, 190);
+    }, 310);
+  }, 120);
 }
 
 function openCore(which){
@@ -552,7 +553,7 @@ document.querySelector('.app').addEventListener('click', e => {
 
 /* ===== плеер поверх страницы ===== */
 const lb = document.getElementById('lb'), lbCap = document.getElementById('lbCap');
-let fly = null, lbVideo = null, lockY = 0, soundTimer = null;
+let fly = null, lbVideo = null, lockY = 0;
 
 function lockScroll(){
   lockY = window.scrollY || document.documentElement.scrollTop;
@@ -604,16 +605,8 @@ function lbOpen(id, title, vertical, img, fallback){
     box.addEventListener('click', e => e.stopPropagation());
     fly.appendChild(box);
   });
-  v.muted = true;
   let ready = false, settled = phone;
-  /* картинка первая, звук вторым: размьючиваем ровно тогда, когда превью
-     до конца растворилось в видео, иначе звук начинается прямо на переходе */
-  const reveal = () => {
-    if (!ready || !settled || !fly || fly.classList.contains('playing')) return;
-    fly.classList.add('playing');
-    clearTimeout(soundTimer);
-    soundTimer = setTimeout(() => { if (lbVideo === v) v.muted = false; }, 720);
-  };
+  const reveal = () => { if (ready && settled && fly) fly.classList.add('playing'); };
   v.addEventListener('playing', () => { ready = true; reveal(); }, {once:true});
   v.addEventListener('webkitendfullscreen', lbClose);
   if (!phone){
@@ -639,7 +632,6 @@ function lbOpen(id, title, vertical, img, fallback){
 
 function lbClose(){
   if (!fly) return;
-  clearTimeout(soundTimer);
   const f = fly, v = lbVideo; fly = null; lbVideo = null;
   v.pause(); v.removeAttribute('src'); v.load();
   f.remove(); lb.classList.remove('on', 'dim'); lb.style.background = '';
