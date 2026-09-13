@@ -827,7 +827,7 @@ body .core{transition:left var(--move) var(--ease),top var(--move) var(--ease),
 .intro .core{cursor:pointer;filter:grayscale(1);box-shadow:none}
 .intro .core .role{opacity:0;transition:opacity .45s ease .08s}
 
-/* разбуженная: лайм, подпись и лаймовая обводка — и так и остаётся */
+/* под курсором: лайм, подпись и лаймовая обводка; ушёл курсор — гаснет обратно */
 .intro .core.woke{filter:none;box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(208,240,74,.5)}
 .intro .core.woke .role{opacity:1}
 
@@ -854,7 +854,7 @@ body .core{transition:left var(--move) var(--ease),top var(--move) var(--ease),
   const app   = document.querySelector('.app');
   const canHover = matchMedia('(hover:hover)').matches;
 
-  const DUR = 720, EASE = 'cubic-bezier(.25,1,.3,1)', SPREAD = 430, BLUR = 9, IDLE = 10000;
+  const DUR = 720, EASE = 'cubic-bezier(.25,1,.3,1)', SPREAD = 430, BLUR = 9, IDLE = 5000;
   let busy = false, timer = null;
 
   const items = () => [...grid.querySelectorAll('.tile, .plate')];
@@ -889,7 +889,7 @@ body .core{transition:left var(--move) var(--ease),top var(--move) var(--ease),
       el.style.opacity = '0';
       el.dataset.delay = Math.round(o.far * SPREAD);
     });
-    timer = setTimeout(reveal, IDLE);   /* без действий работы проявятся сами */
+    timer = setTimeout(reveal, IDLE);   /* без действий работы проявятся через 5 секунд */
   }
 
   function wake(){
@@ -921,7 +921,10 @@ body .core{transition:left var(--move) var(--ease),top var(--move) var(--ease),
     }, DUR + SPREAD + 120);
   }
 
-  core.addEventListener('mouseenter', () => { if (document.body.classList.contains('intro')) wake(); });
+  const introNow = () => document.body.classList.contains('intro');
+  core.addEventListener('mouseenter', () => { if (introNow()) wake(); });
+  /* курсор ушёл — кнопка гаснет обратно в чёрно-белую */
+  core.addEventListener('mouseleave', () => { if (introNow() && !busy) core.classList.remove('woke'); });
 
   app.addEventListener('click', e => {
     if (!document.body.classList.contains('intro')) return;
