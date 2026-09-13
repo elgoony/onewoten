@@ -330,6 +330,11 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .card .sub{font-size:13px}
   .card .play{display:none}
   #works1 .card[data-brand="Сбер"]{order:2}
+  /* экраны работ слиты в один, поэтому третий слайд теперь «Форматы работы»:
+     снимаем с него правила, которые прятали второй заголовок «Портфолио» */
+  .slide:nth-child(3) .frame{padding-top:52px}
+  .slide:nth-child(3) .title{display:block}
+  .slide:nth-child(3) .body{margin-top:16px}
 }
 
 </style>
