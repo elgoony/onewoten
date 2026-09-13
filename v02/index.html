@@ -86,8 +86,6 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
              width var(--move) var(--ease),height var(--move) var(--ease),
              box-shadow .5s ease}
 .core.open{box-shadow:0 40px 120px rgba(17,17,17,.28)}
-.core.switching{transition-duration:.3s}
-.core.switching .pane{transition-duration:.14s}
 
 .core-head{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:20px;overflow:hidden;
@@ -147,9 +145,9 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
   transition:transform .25s var(--ease),box-shadow .25s ease}
 @media (hover:hover){
   .ct:hover{transform:translateY(-5px);
-    box-shadow:0 0 0 5px #fff,0 14px 34px rgba(255,255,255,.6)}
+    box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(208,240,74,.5)}
 }
-.ct:active{transform:translateY(-2px);box-shadow:0 0 0 5px #fff,0 8px 20px rgba(255,255,255,.55)}
+.ct:active{transform:scale(.985);box-shadow:0 0 0 5px var(--lime)}
 .ct .go{position:absolute;right:16px;top:16px;width:34px;height:34px;border-radius:50%;
   background:var(--ink);display:grid;place-items:center}
 .ct .go svg{width:11px;height:11px;stroke:#fff;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -476,42 +474,14 @@ function placeCore(){
   }
 }
 
-function activate(which){
-  paneSvc.classList.toggle('on', which === 'svc');
-  paneCts.classList.toggle('on', which !== 'svc');
-}
-
-/* при переключении вкладок окно меняет размер, и текст перевёрстывался прямо
-   на ходу — поэтому сначала убираем содержимое, потом двигаем стенки, и только
-   на готовое место проявляем новый раздел */
-let switchSeq = 0;
 function showPane(which){
-  const changing = isOpen && pane !== which;
   pane = which;
-  tabSvc.setAttribute('aria-selected', which === 'svc');
-  tabCts.setAttribute('aria-selected', which !== 'svc');
-  const seq = ++switchSeq;
-
-  if (!changing){
-    activate(which);
-    if (isOpen) placeCore();
-    return;
-  }
-
-  /* три такта: текст гаснет → стенки едут на пустом окне → новый раздел
-     проявляется на уже вставшем месте. Иначе строки перевёрстываются на ходу */
-  paneSvc.classList.remove('on');
-  paneCts.classList.remove('on');
-  core.classList.add('switching');
-  setTimeout(() => {
-    if (seq !== switchSeq || !isOpen) return;
-    placeCore();
-    setTimeout(() => {
-      if (seq !== switchSeq || !isOpen) return;
-      core.classList.remove('switching');
-      activate(which);
-    }, 310);
-  }, 120);
+  const svc = which === 'svc';
+  tabSvc.setAttribute('aria-selected', svc);
+  tabCts.setAttribute('aria-selected', !svc);
+  paneSvc.classList.toggle('on', svc);
+  paneCts.classList.toggle('on', !svc);
+  if (isOpen) placeCore();
 }
 
 function openCore(which){
@@ -529,8 +499,6 @@ function openCore(which){
 
 function closeCore(){
   if (!isOpen) return;
-  switchSeq++;
-  core.classList.remove('switching');
   isOpen = false;
   core.classList.remove('open');
   grid.classList.remove('away');
