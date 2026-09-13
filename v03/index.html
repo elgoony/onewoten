@@ -340,6 +340,22 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .slide:nth-child(3) .body{margin-top:16px}
 }
 
+/* ───────── ссылка на сайт с монтажом ───────── */
+.split .txt p{margin-top:auto}
+.site.btn{margin-top:24px;display:inline-flex;align-items:center;gap:14px;align-self:flex-start;
+  height:76px;padding:0 30px;border-radius:38px;background:var(--lime);color:#fff;white-space:nowrap;
+  font-size:25px;font-weight:500;letter-spacing:-.01em;text-decoration:none;
+  transition:transform .25s ease,box-shadow .25s ease}
+.site.btn i{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);
+  display:grid;place-items:center;flex:0 0 auto}
+.site.btn svg{width:13px;height:13px}
+@media(hover:hover){.site.btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(230,65,26,.45)}}
+@media (max-width:900px){
+  .site.btn{margin-top:14px;height:46px;padding:0 16px;border-radius:23px;font-size:15px;gap:10px}
+  .site.btn i{width:24px;height:24px}
+  .site.btn svg{width:10px;height:10px}
+}
+
 </style>
 </head>
 <body>
@@ -396,6 +412,8 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
       <div class="top"><div class="eyebrow">УСЛУГИ</div></div>
       <h2>Монтаж и&nbsp;музыка<br>от&nbsp;одного<br>исполнителя</h2>
       <p>Музыку можно объединить с&nbsp;моей режиссурой монтажа — это усиливает работу на&nbsp;выходе. Пишу параллельно с&nbsp;монтажом, начиная с&nbsp;этапа бордоматика.</p>
+      <a class="site btn" href="https://chuikov.work/" target="_blank" rel="noopener">
+        Смотреть монтаж на&nbsp;chuikov.work<i><svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l6-6M3.5 2.5h5v5"/></svg></i></a>
     </div>
     <div class="panel"><div class="mosaic" id="mosaic" aria-label="Работы, где я делал монтаж и музыку"></div></div>
   </div>
