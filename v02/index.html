@@ -81,6 +81,8 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
 .slot{visibility:hidden}
 .works{display:none}
 .drop{display:none}
+.mhead{display:none}
+.feature{display:none}
 .core{position:absolute;z-index:20;background:var(--lime);border-radius:18px;overflow:hidden;
   display:flex;flex-direction:column;
   transition:left var(--move) var(--ease),top var(--move) var(--ease),
@@ -228,9 +230,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
   .panes{flex:none;height:auto}
   .pane{position:static;display:none;overflow:visible}
   .pane.on{display:block}
-  .svcs,.cts{grid-template-columns:1fr;gap:8px}
   .cts .ct{min-height:0}
-  .pane{padding:0}
   .svc{padding:14px 14px 16px;border-radius:13px}
   .svc h3{margin-top:10px;font-size:22px}
   .svc p{margin-top:7px;font-size:15px}
@@ -238,23 +238,43 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
   .combo{flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border-radius:13px}
   .combo h4{font-size:19px;max-width:none}
   .combo p{font-size:14.5px}
-  .ct{padding:14px;border-radius:13px}
-  .ct .handle{margin-top:26px;padding-top:0;font-size:24px}
-  .ct .url{font-size:14px}
-  .ct .go{right:12px;top:12px;width:30px;height:30px}
+  .ct .handle{margin-top:22px;padding-top:0;font-size:28px}
+  .ct .url{margin-top:4px;font-size:14px}
+  .ct .go{right:12px;top:12px;width:32px;height:32px}
   .close{width:38px;height:38px;right:12px;top:12px}
   .veil{display:none}
 
-  /* на телефоне повторяем поведение v01: разделы просто лежат на странице,
-     ничего не раскрывается и никуда не прокручивает — только вертикальный скролл */
-  .drop{display:block;overflow:visible;height:auto!important;background:var(--lime);
-    border-radius:16px;transition:none}
-  .drop .pane{position:static;display:block;pointer-events:auto;padding:18px 16px 20px;
+  /* на телефоне услуги и контакты взяты целиком из v01: серые карточки на белой
+     бумаге, заголовок раздела сверху, ничего не раскрывается — только прокрутка */
+  .drop{display:block;overflow:visible;height:auto!important;background:transparent;
+    border-radius:0;transition:none}
+  .drop .pane{position:static;display:block;pointer-events:auto;padding:0;
     opacity:1;transform:none;transition:none}
   .tabs{display:none}
-  .plate{cursor:default}
-  .plate:active{transform:none}
-  .plate .arrow{display:none}
+  .quiet{display:none}
+  .plate{display:none}
+
+  .mhead{display:block;margin:26px 0 16px}
+  .meyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#7a7a7a}
+  .mtitle{margin:6px 0 0 -1px;font-size:40px;font-weight:600;letter-spacing:-.04em;line-height:1}
+
+  .svcs{grid-template-columns:1fr;gap:10px}
+  .svc{background:var(--card);border-radius:18px;padding:14px 14px 16px}
+  .svc .chip{background:#fff}
+  .svc h3{margin-top:12px;font-size:24px}
+  .svc p{margin-top:8px;font-size:15px}
+  .svc .price{margin-top:14px;padding-top:0;font-size:28px}
+  .svc .price.soft{margin-top:8px;font-size:15px;font-weight:400;line-height:1.22;color:var(--muted)}
+
+  .feature{display:flex;align-items:center;gap:12px;margin-top:10px;background:var(--lime);
+    border-radius:18px;padding:14px}
+  .feature h4{font-size:22px;font-weight:600;letter-spacing:-.03em;line-height:1.05}
+
+  .combo{margin-top:10px;border-radius:18px;padding:14px}
+  .cts{grid-template-columns:1fr;gap:10px}
+  .ct{background:var(--card);border-radius:18px;padding:14px 14px 16px;box-shadow:none;transform:none}
+  .ct .chip{background:#fff}
+  .chip{height:26px;padding:0 10px;border-radius:13px;font-size:12px}
   #dropSvc{order:2}
   #dropCts{order:99}
 
@@ -300,7 +320,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
         </div>
         <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
       </button>
-      <div class="drop" id="dropSvc"></div>
+      <div class="drop" id="dropSvc"><div class="mhead"><div class="meyebrow">Услуги</div><h2 class="mtitle">Форматы работы</h2></div></div>
 
       <button class="plate p-cts pr2" id="btnCts" style="grid-area:3/5/4/7" aria-expanded="false">
         <div>
@@ -309,7 +329,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
         </div>
         <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
       </button>
-      <div class="drop" id="dropCts"></div>
+      <div class="drop" id="dropCts"><div class="mhead"><h2 class="mtitle">Контакты</h2></div></div>
 
 
     <div class="veil" id="veil"></div>
@@ -348,6 +368,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
                 <div class="price soft">По&nbsp;запросу</div>
               </article>
             </div>
+            <div class="feature"><span class="chip dark">ИИ-музыка</span><h4>Скорость и&nbsp;вариативность</h4></div>
             <div class="combo">
               <h4>Монтаж и&nbsp;музыка от&nbsp;одного исполнителя</h4>
               <p>Музыку можно объединить с&nbsp;моей режиссурой монтажа — это усиливает работу на&nbsp;выходе. Пишу параллельно с&nbsp;монтажом, начиная с&nbsp;этапа бордоматика.</p>
