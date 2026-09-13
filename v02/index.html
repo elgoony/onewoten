@@ -89,15 +89,16 @@ body{font-family:"Onest",system-ui,sans-serif;color:var(--ink);-webkit-font-smoo
              box-shadow .5s ease}
 .core.open{box-shadow:0 40px 120px rgba(17,17,17,.28)}
 
-.core-head{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:20px;overflow:hidden;
+.core-head{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:53px 20px 20px;overflow:hidden;
   transition:padding var(--move) var(--ease),opacity .3s ease}
 .core.open .core-head{padding:0;opacity:0;pointer-events:none}
+.core.open .core-body{position:relative;z-index:3}
 .core .word{font-size:112px;font-weight:600;letter-spacing:-.055em;line-height:1;
   transition:font-size var(--move) var(--ease)}
 .core.open .word{font-size:0}
-.core .role{margin-top:10px;font-size:19px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
-  white-space:nowrap;
+.core .role{margin-top:10px;font-size:19px;line-height:1.2;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;white-space:nowrap;
   transition:font-size var(--move) var(--ease),margin-top var(--move) var(--ease)}
 .core.open .role{margin-top:0;font-size:0}
 .core-head .flex{flex:1;min-height:0}
@@ -212,11 +213,12 @@ a:focus-visible,button:focus-visible{outline:3px solid #3b6cff;outline-offset:3p
 
   .slot{display:none}
   .core{position:static;order:-3;border-radius:16px}
-  .core-head{padding:34px 18px 36px}
+  .core-head{padding:58px 18px 13px}
+  .core-head{position:static;inset:auto}
   .core.open .core-head{padding:0}
   .core .word{font-size:clamp(46px,14vw,84px)}
   .core.open .word{font-size:0}
-  .core .role{font-size:14px;letter-spacing:.16em;white-space:normal}
+  .core .role{font-size:14px;line-height:1.25;letter-spacing:.16em;white-space:normal}
   .core.open .role{font-size:0}
   .quiet{font-size:15px;margin-bottom:14px}
   /* вертикальные отступы живут на детях, а не на самой панели: иначе они
