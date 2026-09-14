@@ -394,6 +394,17 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .toc .lnk a{font-size:12px;padding-bottom:2px}
 }
 
+/* ── «Форматы работы» без цены: шкала этапов белыми плашками ── */
+.svc h2:first-child{margin-top:0}
+.stages{margin-top:auto;display:flex;gap:6px}
+.stages span{flex:1;text-align:center;height:46px;line-height:46px;border-radius:23px;
+  background:var(--paper);color:#BCB2A9;font-size:21px;font-weight:500}
+.stages span.on{color:var(--ink)}
+@media (max-width:900px){
+  .stages{margin-top:12px;gap:5px}
+  .stages span{height:30px;line-height:30px;border-radius:15px;font-size:12px}
+}
+
 /* ── A «Строка»: оглавление строкой, кадра нет ── */
 .toc{padding-bottom:22px;border-bottom:1px solid rgba(20,16,14,.10);margin-bottom:22px}
 @media (max-width:900px){.toc{padding-bottom:10px;margin-bottom:12px}}
@@ -432,21 +443,18 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   <div class="body">
     <section class="services" aria-label="Услуги">
       <article class="svc ref">
-        <div class="chips"><span class="chip">Тендер</span><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Референсное звучание</h2>
         <p>Помощь проекту на&nbsp;любом из&nbsp;этапов. Затем композитор может переписать музыку по&nbsp;моему референсу, получив дорожки трека.</p>
-        <div class="price">50&#8239;000&nbsp;₽</div>
+        <div class="stages"><span class="on">Тендер</span><span class="on">Препрод</span><span class="on">Пост</span></div>
       </article>
       <article class="svc">
-        <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Полноценный трек</h2>
         <p>Начинаю писать на&nbsp;препродакшене сразу под монтаж или подключаюсь на&nbsp;посте.</p>
-        <div class="price">250&#8239;000&nbsp;₽</div>
+        <div class="stages"><span>Тендер</span><span class="on">Препрод</span><span class="on">Пост</span></div>
       </article>
       <article class="svc">
-        <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Саунд-дизайн</h2>
-        <div class="price">По&nbsp;запросу</div>
+        <div class="stages"><span>Тендер</span><span class="on">Препрод</span><span class="on">Пост</span></div>
       </article>
     </section>
   </div>
