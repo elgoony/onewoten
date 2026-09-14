@@ -409,6 +409,19 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .toc .lnk a{font-size:12px}
 }
 
+/* ── телефон: контакт подвалом внизу страницы ── */
+.mfoot{display:none}
+@media (max-width:900px){
+  .toc .lnk{display:none}
+  .toc{padding-bottom:8px;margin-bottom:10px}
+  .mfoot{display:block;margin-top:26px;padding:26px 12px calc(32px + env(safe-area-inset-bottom));
+    text-align:center;border-top:1px solid rgba(20,16,14,.10)}
+  .mfoot .lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);line-height:1}
+  .mfoot a{display:inline-block;margin-top:7px;font-size:26px;font-weight:600;letter-spacing:-.03em;
+    color:var(--ink);text-decoration:none}
+}
+
 /* ── A «Строка»: оглавление строкой, кадра нет ── */
 .toc{padding-bottom:22px;border-bottom:1px solid rgba(20,16,14,.10);margin-bottom:22px}
 @media (max-width:900px){.toc{padding-bottom:10px;margin-bottom:12px}}
@@ -469,6 +482,10 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 </div></main></section>
 
 </div>
+<footer class="mfoot">
+  <div class="lbl">Связь</div>
+  <a href="https://t.me/qatcha" target="_blank" rel="noopener">t.me/qatcha</a>
+</footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Видео"><div class="cap" id="lb-cap"></div></div>
 
