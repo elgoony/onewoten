@@ -60,12 +60,12 @@ html{scroll-behavior:smooth}
 .works{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .card{position:relative;display:block;border-radius:28px;background:var(--card);overflow:hidden;color:inherit;text-decoration:none;transition:background .25s ease,box-shadow .25s ease,transform .25s ease}
 @media(hover:hover){
-  .card:hover{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
+  .card:hover{background:var(--lime);box-shadow:0 0 0 6px rgba(208,240,74,.35),0 14px 44px rgba(208,240,74,.55);transform:translateY(-4px)}
   .card:hover .sub{color:var(--ink)}
-  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
+  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(208,240,74,.55);transform:translateY(-4px)}
   .mosaic a:hover img{filter:brightness(1.06)}
 }
-.card:active{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35);transform:scale(.985)}
+.card:active{background:var(--lime);box-shadow:0 0 0 6px rgba(208,240,74,.35);transform:scale(.985)}
 .mosaic a:active{box-shadow:0 0 0 5px var(--lime);transform:scale(.985)}
 .head{position:absolute;left:22px;right:22px;top:22px}
 .brand{margin-top:56px;font-size:48px;line-height:1.05;font-weight:600;letter-spacing:-.03em;white-space:nowrap}
@@ -101,10 +101,10 @@ html{scroll-behavior:smooth}
 .contacts{height:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .contact{position:relative;border-radius:28px;background:var(--card);padding:22px 26px 28px;display:flex;flex-direction:column;color:inherit;text-decoration:none;transition:background .25s ease,box-shadow .25s ease,transform .25s ease}
 @media(hover:hover){
-  .contact:hover{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35),0 14px 44px rgba(230,65,26,.55);transform:translateY(-4px)}
+  .contact:hover{background:var(--lime);box-shadow:0 0 0 6px rgba(208,240,74,.35),0 14px 44px rgba(208,240,74,.55);transform:translateY(-4px)}
   .contact:hover .url{color:var(--ink)}
 }
-.contact:active{background:var(--lime);box-shadow:0 0 0 6px rgba(230,65,26,.35);transform:scale(.985)}
+.contact:active{background:var(--lime);box-shadow:0 0 0 6px rgba(208,240,74,.35);transform:scale(.985)}
 .contact .go{position:absolute;right:22px;top:22px;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
 .contact .go svg{width:13px;height:13px}
 .handle{margin-top:auto;font-size:56px;line-height:1.05;font-weight:600;letter-spacing:-.035em;white-space:nowrap}
@@ -245,7 +245,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 }
 
 /* ───────── титул: кадр во весь лист ───────── */
-.hero .panel{background:radial-gradient(120% 92% at 50% 46%,#E6431A 0%,#C32C0E 58%,#8E1A05 100%);overflow:hidden}
+.hero .panel{background:radial-gradient(120% 92% at 50% 46%,#D8F45C 0%,#BBE03A 58%,#9CC022 100%);overflow:hidden}
 .hero .shot{position:absolute;inset:0;overflow:hidden}
 .hero .shot > div{position:absolute;inset:0;background-position:50% 50%;background-size:cover;background-repeat:no-repeat}
 .hero .ph{background-image:var(--ph)}
@@ -266,19 +266,19 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 }
 
 /* ───────── палитра A «Бумага» ───────── */
-:root{--ink:#14100E;--muted:#7B736B;--card:#F3EBE5;--lime:#E6411A;--glow:#E6411A;--paper:#FFFFFF}
-.eyebrow{color:#A0948B}
+:root{--ink:#111111;--muted:#6e6b66;--card:#ECE9E3;--lime:#D0F04A;--glow:#D0F04A;--paper:#FFFFFF}
+.eyebrow{color:#7a7a7a}
 .chip{background:#FFFFFF}
 .feature{color:#FFFFFF}
-.feature .chip.dark{background:#14100E;color:#fff}
+.feature .chip.dark{background:#111111;color:#fff}
 @media(hover:hover){
   .card:hover,.card:hover .brand,.card:hover .sub{color:#fff}
   .card:hover .chip{background:rgba(255,255,255,.2);color:#fff}
   .contact:hover,.contact:hover .handle,.contact:hover .url{color:#fff}
   .contact:hover .chip{background:rgba(255,255,255,.2);color:#fff}
-  .contact:hover .go{background:#fff;color:#E6411A}
+  .contact:hover .go{background:#fff;color:#D0F04A}
   /* мозаика «Монтаж и музыка»: обводка одного тона — как у карточек */
-  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(230,65,26,.55)}
+  .mosaic a:hover{box-shadow:0 0 0 5px var(--lime),0 14px 44px rgba(208,240,74,.55)}
 }
 .mosaic a:active{box-shadow:0 0 0 5px var(--lime)}
 
@@ -311,7 +311,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .card .play svg{width:12px;height:14px;fill:#fff;margin-left:2px}
 @media(hover:hover){
   .card:hover{background:var(--card);color:inherit;
-    box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5);transform:translateY(-5px)}
+    box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(208,240,74,.5);transform:translateY(-5px)}
   .card:hover img{transform:scale(1.045);filter:brightness(1.06)}
   .card:hover .play{opacity:1;transform:scale(1)}
   .card:hover .brand,.card:hover .sub{color:inherit}
@@ -349,7 +349,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .site.btn i{width:34px;height:34px;border-radius:50%;background:var(--lime);
   color:var(--ink);display:grid;place-items:center;flex:0 0 auto}
 .site.btn svg{width:11px;height:11px}
-@media(hover:hover){.site.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(60,20,8,.14)}}
+@media(hover:hover){.site.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.14)}}
 @media (max-width:900px){
   .site.btn{margin-top:14px;height:40px;padding:0 15px;border-radius:20px;font-size:14px;gap:10px}
   .site.btn i{width:22px;height:22px}
@@ -375,7 +375,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .toc .rl{font-size:34px;font-weight:500;letter-spacing:-.015em;color:var(--muted)}
 .toc .lnk{display:flex;flex-direction:column;align-items:flex-end;gap:8px;white-space:nowrap}
 .toc .lnk a{font-size:var(--min);font-weight:500;line-height:1.1;color:var(--muted);text-decoration:none;
-  border-bottom:1px solid rgba(20,16,14,.16);padding-bottom:4px;
+  border-bottom:1px solid rgba(17,17,17,.16);padding-bottom:4px;
   transition:color .22s ease,border-color .22s ease}
 @media(hover:hover){.toc .lnk a:hover{color:var(--lime);border-color:var(--lime)}}
 @media (max-width:900px){
@@ -394,8 +394,22 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .toc .lnk a{font-size:12px;padding-bottom:2px}
 }
 
+/* ── телеграм как контакт: пламенная точка и «на связи», адрес без подчёркивания ── */
+.toc .lnk a{border-bottom:0;padding-bottom:0}
+.toc .live{display:inline-flex;align-items:baseline;gap:12px;text-decoration:none;color:var(--muted);
+  font-size:26px;font-weight:500;white-space:nowrap}
+.toc .live .dot{width:12px;height:12px;border-radius:50%;background:var(--lime);align-self:center;
+  flex:0 0 auto}
+.toc .live b{font-size:var(--min);font-weight:500;color:var(--ink)}
+@media(hover:hover){.toc .live:hover b{color:var(--lime)}}
+@media (max-width:900px){
+  .toc .live{font-size:12px;gap:8px}
+  .toc .live .dot{width:7px;height:7px}
+  .toc .live b{font-size:12px}
+}
+
 /* ── A «Строка»: оглавление строкой, кадра нет ── */
-.toc{padding-bottom:22px;border-bottom:1px solid rgba(20,16,14,.10);margin-bottom:22px}
+.toc{padding-bottom:22px;border-bottom:1px solid rgba(17,17,17,.10);margin-bottom:22px}
 @media (max-width:900px){.toc{padding-bottom:10px;margin-bottom:12px}}
 
 /* ── телефон: свой порядок плиток ── */
@@ -419,7 +433,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   <header class="toc">
     <div class="me"><span class="nm">onewoten</span><span class="sl">//</span><span class="rl">ии-композитор и&nbsp;саунд-дизайнер</span></div>
     <nav class="lnk" aria-label="Контакты">
-      <a href="https://t.me/qatcha" target="_blank" rel="noopener">t.me/qatcha</a>
+      <a class="live" href="https://t.me/qatcha" target="_blank" rel="noopener"><i class="dot"></i>на&nbsp;связи<b>t.me/qatcha</b></a>
     </nav>
   </header>
   <div class="body"><section class="works" id="works1" aria-label="Работы"></section></div>
