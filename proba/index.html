@@ -515,34 +515,31 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .svc.flip .front h2{margin-top:12px}
 }
 
-/* ═════════ тест: сокращённая типографика ═════════
-   экран:   110 заголовок · 44 крупный · 32 текст · 30 бренд · 24 чип и капс · 16 мелкое
-   телефон:  40 заголовок · 24 крупный · 14 текст · 20 бренд · 12 чип, капс и мелкое      */
+/* ═════════ тест: минимум типов написания ═════════
+   экран:   110 заголовок · 44 крупное · 32 текст (400) и бренд на плитке (600) · 16 всё мелкое
+   телефон:  40 заголовок · 24 крупное · 20 бренд · 14 текст · 12 всё мелкое              */
 @media (min-width:901px){
-  /* крупный: цена, имя, «//», название услуги — один кегль и вес */
   .price,.toc .nm,.toc .sl,.svc h2{font-size:44px;font-weight:600;letter-spacing:-.035em}
-  /* текст: абзац, роль в шапке, адрес — один кегль и вес */
   .svc p,.toc .rl,.toc .lnk a{font-size:32px;font-weight:400;letter-spacing:0}
-  /* чип и подпись капслоком — один кегль */
-  .chip{font-size:24px}
-  .toc .lbl{font-size:24px}
-  /* плитка: бренд и всё мелкое */
-  .card .brand{font-size:30px}
-  .card .sub,.card .role{font-size:16px;font-weight:500;letter-spacing:0}
+  .card .brand{font-size:32px;font-weight:600;letter-spacing:-.03em}
+  /* всё мелкое — один тип: чип, подзаголовок и пилюля на плитке, подпись связи */
+  .chip,.card .sub,.card .role,.toc .lbl{font-size:16px;font-weight:500;letter-spacing:0;
+    text-transform:none}
+  .chip{height:30px;padding:0 13px;border-radius:15px}
+  .svc .chips{gap:8px}
+  .toc .lbl{color:var(--muted)}
+  .card .role{padding:4px 9px;border-radius:11px}
 }
 @media (max-width:900px){
   .title,.title.first{font-size:40px}
   .price,.svc h2,.mfoot a{font-size:24px;font-weight:600;letter-spacing:-.03em}
-  .svc p,.toc .rl{font-size:14px;font-weight:400}
   .toc .nm{font-size:clamp(15px,5.8vw,24px)}
-  .toc .sl{font-size:clamp(13px,5vw,22px)}
+  .toc .sl{font-size:clamp(13px,5vw,22px);letter-spacing:-.03em}
   .card .brand{font-size:20px;letter-spacing:-.03em}
-  .toc .sl{letter-spacing:-.03em}
+  .svc p,.toc .rl,.services .svc:nth-child(3) .price{font-size:14px;font-weight:400;letter-spacing:0}
   .chip,.card .sub,.card .role,.toc .lbl,.mfoot .lbl,.toc .lnk a{font-size:12px;font-weight:500;
-    letter-spacing:0}
-  .toc .lbl,.mfoot .lbl{letter-spacing:.1em}
-  .services .svc:nth-child(3) .price{font-size:14px;font-weight:400;letter-spacing:0}
-  .toc .rl{letter-spacing:0}
+    letter-spacing:0;text-transform:none}
+  .chip{height:24px;padding:0 9px;border-radius:12px}
 }
 </style>
 </head>
