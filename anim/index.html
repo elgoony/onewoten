@@ -455,9 +455,9 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .svc.flip .pp{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;opacity:0;pointer-events:none;
   width:52px;height:52px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;
   display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s ease,opacity .25s ease}
-.svc.flip.on .pp{opacity:1;pointer-events:auto}
-.svc.flip.on.idle .pp{opacity:0;pointer-events:none}
+.svc.flip.on:hover .pp{opacity:1;pointer-events:auto}
 .svc.flip.on.paused .pp{opacity:1;pointer-events:auto}
+@media (hover:none){.svc.flip.on .pp{opacity:1;pointer-events:auto}}
 .svc.flip .pp:hover{background:rgba(0,0,0,.75)}
 .svc.flip .pp svg{width:16px;height:18px}
 .svc.flip .pp .i-play{display:none}
@@ -470,37 +470,14 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 /* заголовок и цена внутри лицевой стороны — как были */
 .svc.flip .front h2{margin-top:22px}
 .svc.flip .front .price{margin-top:auto;padding-top:6px}
-/* ── 1 · размытая подложка ── */
-.bg1 .svc.flip .back{background:#0B0A09}
-.bg1 .svc.flip .back .blur{display:block;object-fit:cover;filter:blur(26px) saturate(1.25);
-  transform:scale(1.3);opacity:.85}
-/* ── 2 · поля цветом карточки ── */
-.bg2 .svc.flip .back{background:var(--card)}
-.bg2 .svc.flip .pp{background:rgba(20,16,14,.5)}
-/* ── 3 · кадр сверху, под ним название ── */
-.bg3 .svc.flip .back{background:var(--card);display:flex;flex-direction:column}
-.bg3 .svc.flip .back .main{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:16/9;
-  object-fit:cover}
-.bg3 .svc.flip .back .cap{display:block;padding:18px;font-size:44px;line-height:1.02;font-weight:600;
-  letter-spacing:-.03em;color:var(--ink)}
-.bg3 .svc.flip .pp{bottom:auto;top:125px;background:rgba(0,0,0,.5)}
-/* ── 4 · разворот на всю ширину раздела ── */
-.bg4 .services{position:relative}
-.bg4 .svc.flip.on{position:absolute;left:50%;top:50%;width:995px;height:560px;z-index:5;
-  transform:translate(-50%,-50%)}
-.bg4 .svc.flip.on .back{background:#000}
-.bg4 .svc.flip.on .back .main{object-fit:cover}
-/* ── 5 · карточка сжимается под кадр ── */
-.bg5 .svc.flip.on .back{inset:auto 0;top:50%;height:auto;aspect-ratio:16/9;
-  transform:translateY(-50%) rotateY(180deg);background:#000}
-.bg5 .svc.flip.on .back .main{object-fit:cover}
-.bg5 .svc.flip.on .back{box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5)}
-.bg5 .svc.flip.on,.bg5 .svc.flip.on:hover{box-shadow:none;transform:none}
+/* ── кадр по высоте: перевёрнутая карточка сжимается до пропорции ролика ── */
+.svc.flip.on .back{inset:auto 0;top:50%;height:auto;aspect-ratio:16/9;
+  transform:translateY(-50%) rotateY(180deg);background:#000;
+  box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5)}
+.svc.flip.on .back .main{object-fit:cover}
+.svc.flip.on,.svc.flip.on:hover{box-shadow:none;transform:none}
 
 @media (max-width:900px){
-  .bg4 .svc.flip.on{position:static;width:auto;height:auto;transform:none}
-  .bg3 .svc.flip .back .cap{padding:12px;font-size:22px}
-  .bg3 .svc.flip .pp{top:44px;width:38px;height:38px}
   .svc.flip{min-height:190px}
   .svc.flip .face{border-radius:18px}
   .svc.flip .front{padding:14px 14px 16px}
@@ -708,15 +685,6 @@ if(matchMedia('(hover:none)').matches){
 
 </script>
 
-<style>
-#sw{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:200;display:flex;gap:8px;
- background:rgba(20,16,14,.92);padding:8px 12px;border-radius:26px;box-shadow:0 10px 34px rgba(0,0,0,.28)}
-#sw b{color:#fff;font:500 14px/1 Onest,sans-serif;align-self:center;padding:0 6px;opacity:.7}
-#sw button{font:500 15px/1 Onest,sans-serif;color:#fff;background:transparent;border:0;cursor:pointer;
- width:34px;height:34px;border-radius:50%}
-#sw button.on{background:#E6411A}
-</style>
-<div id="sw"><b>поля</b></div>
 <script>
 /* переворот карточки услуги: на обороте играет ролик */
 document.querySelectorAll('.svc.flip').forEach(card=>{
@@ -739,23 +707,8 @@ document.querySelectorAll('.svc.flip').forEach(card=>{
         o.querySelectorAll('video').forEach(x=>x.pause());}});
     } else { v.pause(); bg.pause(); }
   });
-  let idle; const wake=()=>{card.classList.remove('idle');clearTimeout(idle);
-    idle=setTimeout(()=>{if(!v.paused)card.classList.add('idle')},1800)};
-  card.addEventListener('mousemove',wake);
-  card.addEventListener('touchstart',wake,{passive:true});
-  v.addEventListener('play',wake);
-  v.addEventListener('ended',()=>{card.classList.remove('on','idle');v.pause();bg.pause()});
+  v.addEventListener('ended',()=>{card.classList.remove('on');v.pause();bg.pause()});
 });
-/* переключатель обработки полей */
-const BG=['размытая подложка','цвет карточки','кадр сверху','разворот на всю ширину','кадр по высоте'];
-const bar=document.getElementById('sw');
-function setBg(n){document.body.className='bg'+(n+1);
-  [...bar.querySelectorAll('button')].forEach((b,i)=>b.classList.toggle('on',i===n));
-  try{localStorage.setItem('bg',n)}catch(e){}}
-BG.forEach((t,i)=>{const b=document.createElement('button');b.textContent=i+1;b.title=t;
-  b.onclick=()=>setBg(i);bar.appendChild(b)});
-let st=4;try{const v=localStorage.getItem('bg');if(v!==null)st=+v}catch(e){}
-setBg(st>=0&&st<5?st:4);
 </script>
 </body>
 </html>
