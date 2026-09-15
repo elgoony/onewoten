@@ -454,8 +454,12 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 /* кнопка паузы-плея */
 .svc.flip .pp{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;opacity:0;pointer-events:none;
   width:52px;height:52px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;
-  display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s ease,opacity .25s ease}
-.svc.flip.on:hover .pp{opacity:1;pointer-events:auto}
+  display:grid;place-items:center;backdrop-filter:blur(8px);
+  transition:background .2s ease,opacity .08s linear}
+/* кнопку показывает только курсор на самом кадре, не на всей карточке */
+.svc.flip.on .back:hover .pp{opacity:1;pointer-events:auto}
+.svc.flip.on .front{pointer-events:none}
+.svc.flip:not(.on) .back{pointer-events:none}
 .svc.flip.on.paused .pp{opacity:1;pointer-events:auto}
 @media (hover:none){.svc.flip.on .pp{opacity:1;pointer-events:auto}}
 .svc.flip .pp:hover{background:rgba(0,0,0,.75)}
