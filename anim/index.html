@@ -448,7 +448,18 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   -webkit-backface-visibility:hidden;backface-visibility:hidden}
 .svc.flip .front{background:var(--card);padding:20px 18px;display:flex;flex-direction:column}
 .svc.flip .back{background:#000;transform:rotateY(180deg)}
-.svc.flip .back video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.svc.flip .back video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.svc.flip .back .blur{display:none}
+.svc.flip .back .cap{display:none}
+/* кнопка паузы-плея */
+.svc.flip .pp{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;
+  width:52px;height:52px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;
+  display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s ease,opacity .25s ease}
+.svc.flip .pp:hover{background:rgba(0,0,0,.75)}
+.svc.flip .pp svg{width:16px;height:18px}
+.svc.flip .pp .i-play{display:none}
+.svc.flip.paused .pp .i-play{display:block}
+.svc.flip.paused .pp .i-pause{display:none}
 .svc.flip .back-x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;
   background:rgba(0,0,0,.5);color:#fff;display:grid;place-items:center;backdrop-filter:blur(6px);
   opacity:0;transition:opacity .25s ease}
@@ -461,7 +472,35 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 /* заголовок и цена внутри лицевой стороны — как были */
 .svc.flip .front h2{margin-top:22px}
 .svc.flip .front .price{margin-top:auto;padding-top:6px}
+/* ── 1 · размытая подложка ── */
+.bg1 .svc.flip .back{background:#0B0A09}
+.bg1 .svc.flip .back .blur{display:block;object-fit:cover;filter:blur(26px) saturate(1.25);
+  transform:scale(1.3);opacity:.85}
+/* ── 2 · поля цветом карточки ── */
+.bg2 .svc.flip .back{background:var(--card)}
+.bg2 .svc.flip .pp{background:rgba(20,16,14,.5)}
+/* ── 3 · кадр сверху, под ним название ── */
+.bg3 .svc.flip .back{background:var(--card);display:flex;flex-direction:column}
+.bg3 .svc.flip .back .main{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:16/9;
+  object-fit:cover}
+.bg3 .svc.flip .back .cap{display:block;padding:18px;font-size:44px;line-height:1.02;font-weight:600;
+  letter-spacing:-.03em;color:var(--ink)}
+.bg3 .svc.flip .pp{bottom:auto;top:125px;background:rgba(0,0,0,.5)}
+/* ── 4 · разворот на всю ширину раздела ── */
+.bg4 .services{position:relative}
+.bg4 .svc.flip.on{position:absolute;left:50%;top:50%;width:995px;height:560px;z-index:5;
+  transform:translate(-50%,-50%)}
+.bg4 .svc.flip.on .back{background:#000}
+.bg4 .svc.flip.on .back .main{object-fit:cover}
+/* ── 5 · карточка сжимается под кадр ── */
+.bg5 .svc.flip.on .back{inset:auto 0;top:50%;height:auto;aspect-ratio:16/9;
+  transform:translateY(-50%) rotateY(180deg);background:#000}
+.bg5 .svc.flip.on .back .main{object-fit:cover}
+
 @media (max-width:900px){
+  .bg4 .svc.flip.on{position:static;width:auto;height:auto;transform:none}
+  .bg3 .svc.flip .back .cap{padding:12px;font-size:22px}
+  .bg3 .svc.flip .pp{top:44px;width:38px;height:38px}
   .svc.flip{min-height:190px}
   .svc.flip .face{border-radius:18px}
   .svc.flip .front{padding:14px 14px 16px}
@@ -496,18 +535,18 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
         <h2>Референсное звучание</h2>
         <p>Помощь проекту на&nbsp;любом из&nbsp;этапов. Отдаю трек под&nbsp;монтаж и&nbsp;дорожки для&nbsp;композитора.</p>
         <div class="price">50&#8239;000&nbsp;₽</div>
-      </div><div class="face back"><video playsinline preload="none" muted></video><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Референсное звучание</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
       <article class="svc flip" data-src="../video/1126747019.mp4"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Полноценный трек</h2>
         <p>Включение в&nbsp;процесс на&nbsp;этапе аниматика или с&nbsp;постпродакшена. Доведение до&nbsp;финального звучания.</p>
         <div class="price">200&#8239;000&nbsp;₽</div>
-      </div><div class="face back"><video playsinline preload="none" muted></video><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Полноценный трек</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
       <article class="svc flip" data-src="../video/1213937432.mp4"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Саунд-дизайн</h2>
         <div class="price">По&nbsp;запросу</div>
-      </div><div class="face back"><video playsinline preload="none" muted></video><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Саунд-дизайн</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
     </section>
   </div>
 </div></main></section>
@@ -670,22 +709,49 @@ if(matchMedia('(hover:none)').matches){
 
 </script>
 
+<style>
+#sw{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:200;display:flex;gap:8px;
+ background:rgba(20,16,14,.92);padding:8px 12px;border-radius:26px;box-shadow:0 10px 34px rgba(0,0,0,.28)}
+#sw b{color:#fff;font:500 14px/1 Onest,sans-serif;align-self:center;padding:0 6px;opacity:.7}
+#sw button{font:500 15px/1 Onest,sans-serif;color:#fff;background:transparent;border:0;cursor:pointer;
+ width:34px;height:34px;border-radius:50%}
+#sw button.on{background:#E6411A}
+</style>
+<div id="sw"><b>поля</b></div>
 <script>
 /* переворот карточки услуги: на обороте играет ролик */
 document.querySelectorAll('.svc.flip').forEach(card=>{
-  const v=card.querySelector('video');
+  const v=card.querySelector('video.main'), bg=card.querySelector('video.blur');
+  const pp=card.querySelector('.pp');
+  const sync=()=>{if(!bg.src)return; try{bg.currentTime=v.currentTime}catch(e){}};
+  v.addEventListener('timeupdate',()=>{if(Math.abs(bg.currentTime-v.currentTime)>0.3)sync()});
+  pp.addEventListener('click',e=>{e.stopPropagation();
+    if(v.paused){v.play();bg.play&&bg.play().catch(()=>{});card.classList.remove('paused');pp.setAttribute('aria-label','Пауза')}
+    else{v.pause();bg.pause();card.classList.add('paused');pp.setAttribute('aria-label','Смотреть')}});
   card.addEventListener('click',()=>{
     const on=card.classList.toggle('on');
     if(on){
-      if(!v.src) v.src=card.dataset.src;
-      v.currentTime=0; v.muted=false; v.volume=1;
+      if(!v.src){ v.src=card.dataset.src; bg.src=card.dataset.src; }
+      v.currentTime=0; bg.currentTime=0; v.muted=false; v.volume=1;
+      card.classList.remove('paused');
       const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{v.muted=true;v.play().catch(()=>{})});
+      bg.play&&bg.play().catch(()=>{});
       document.querySelectorAll('.svc.flip.on').forEach(o=>{if(o!==card){o.classList.remove('on');
-        const ov=o.querySelector('video'); ov.pause();}});
-    } else { v.pause(); }
+        o.querySelectorAll('video').forEach(x=>x.pause());}});
+    } else { v.pause(); bg.pause(); }
   });
-  v.addEventListener('ended',()=>{card.classList.remove('on');v.pause()});
+  v.addEventListener('ended',()=>{card.classList.remove('on');v.pause();bg.pause()});
 });
+/* переключатель обработки полей */
+const BG=['размытая подложка','цвет карточки','кадр сверху','разворот на всю ширину','кадр по высоте'];
+const bar=document.getElementById('sw');
+function setBg(n){document.body.className='bg'+(n+1);
+  [...bar.querySelectorAll('button')].forEach((b,i)=>b.classList.toggle('on',i===n));
+  try{localStorage.setItem('bg',n)}catch(e){}}
+BG.forEach((t,i)=>{const b=document.createElement('button');b.textContent=i+1;b.title=t;
+  b.onclick=()=>setBg(i);bar.appendChild(b)});
+let st=0;try{st=+(localStorage.getItem('bg')||0)}catch(e){}
+setBg(st>=0&&st<5?st:0);
 </script>
 </body>
 </html>
