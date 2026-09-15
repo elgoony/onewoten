@@ -452,19 +452,17 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .svc.flip .back .blur{display:none}
 .svc.flip .back .cap{display:none}
 /* кнопка паузы-плея */
-.svc.flip .pp{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;
+.svc.flip .pp{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;opacity:0;pointer-events:none;
   width:52px;height:52px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;
   display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s ease,opacity .25s ease}
+.svc.flip.on .pp{opacity:1;pointer-events:auto}
+.svc.flip.on.idle .pp{opacity:0;pointer-events:none}
+.svc.flip.on.paused .pp{opacity:1;pointer-events:auto}
 .svc.flip .pp:hover{background:rgba(0,0,0,.75)}
 .svc.flip .pp svg{width:16px;height:18px}
 .svc.flip .pp .i-play{display:none}
 .svc.flip.paused .pp .i-play{display:block}
 .svc.flip.paused .pp .i-pause{display:none}
-.svc.flip .back-x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;
-  background:rgba(0,0,0,.5);color:#fff;display:grid;place-items:center;backdrop-filter:blur(6px);
-  opacity:0;transition:opacity .25s ease}
-.svc.flip .back-x svg{width:13px;height:13px}
-.svc.flip.on:hover .back-x{opacity:1}
 @media(hover:hover){
   .svc.flip:hover{transform:translateY(-5px);box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5)}
 }
@@ -496,6 +494,8 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .bg5 .svc.flip.on .back{inset:auto 0;top:50%;height:auto;aspect-ratio:16/9;
   transform:translateY(-50%) rotateY(180deg);background:#000}
 .bg5 .svc.flip.on .back .main{object-fit:cover}
+.bg5 .svc.flip.on .back{box-shadow:0 0 0 5px var(--lime),0 16px 46px rgba(230,65,26,.5)}
+.bg5 .svc.flip.on,.bg5 .svc.flip.on:hover{box-shadow:none;transform:none}
 
 @media (max-width:900px){
   .bg4 .svc.flip.on{position:static;width:auto;height:auto;transform:none}
@@ -505,7 +505,6 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .svc.flip .face{border-radius:18px}
   .svc.flip .front{padding:14px 14px 16px}
   .svc.flip .front h2{margin-top:12px}
-  .svc.flip .back-x{width:28px;height:28px;right:10px;top:10px;opacity:1}
 }
 </style>
 </head>
@@ -535,18 +534,18 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
         <h2>Референсное звучание</h2>
         <p>Помощь проекту на&nbsp;любом из&nbsp;этапов. Отдаю трек под&nbsp;монтаж и&nbsp;дорожки для&nbsp;композитора.</p>
         <div class="price">50&#8239;000&nbsp;₽</div>
-      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Референсное звучание</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Референсное звучание</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button></div></div></article>
       <article class="svc flip" data-src="../video/1126747019.mp4"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Полноценный трек</h2>
         <p>Включение в&nbsp;процесс на&nbsp;этапе аниматика или с&nbsp;постпродакшена. Доведение до&nbsp;финального звучания.</p>
         <div class="price">200&#8239;000&nbsp;₽</div>
-      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Полноценный трек</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Полноценный трек</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button></div></div></article>
       <article class="svc flip" data-src="../video/1213937432.mp4"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Саунд-дизайн</h2>
         <div class="price">По&nbsp;запросу</div>
-      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Саунд-дизайн</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><i class="back-x"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></i></div></div></article>
+      </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Саунд-дизайн</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button></div></div></article>
     </section>
   </div>
 </div></main></section>
@@ -740,7 +739,12 @@ document.querySelectorAll('.svc.flip').forEach(card=>{
         o.querySelectorAll('video').forEach(x=>x.pause());}});
     } else { v.pause(); bg.pause(); }
   });
-  v.addEventListener('ended',()=>{card.classList.remove('on');v.pause();bg.pause()});
+  let idle; const wake=()=>{card.classList.remove('idle');clearTimeout(idle);
+    idle=setTimeout(()=>{if(!v.paused)card.classList.add('idle')},1800)};
+  card.addEventListener('mousemove',wake);
+  card.addEventListener('touchstart',wake,{passive:true});
+  v.addEventListener('play',wake);
+  v.addEventListener('ended',()=>{card.classList.remove('on','idle');v.pause();bg.pause()});
 });
 /* переключатель обработки полей */
 const BG=['размытая подложка','цвет карточки','кадр сверху','разворот на всю ширину','кадр по высоте'];
@@ -750,8 +754,8 @@ function setBg(n){document.body.className='bg'+(n+1);
   try{localStorage.setItem('bg',n)}catch(e){}}
 BG.forEach((t,i)=>{const b=document.createElement('button');b.textContent=i+1;b.title=t;
   b.onclick=()=>setBg(i);bar.appendChild(b)});
-let st=0;try{st=+(localStorage.getItem('bg')||0)}catch(e){}
-setBg(st>=0&&st<5?st:0);
+let st=4;try{const v=localStorage.getItem('bg');if(v!==null)st=+v}catch(e){}
+setBg(st>=0&&st<5?st:4);
 </script>
 </body>
 </html>
