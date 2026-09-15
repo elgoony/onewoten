@@ -409,6 +409,16 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .toc .lnk a{font-size:12px}
 }
 
+/* ── телефон: плитка загорается, пока на ней палец ── */
+@media (max-width:900px){
+  #works1 .card,.services .svc{transition:transform .22s ease,box-shadow .22s ease}
+  #works1 .card.lit{box-shadow:0 0 0 4px var(--lime),0 12px 32px rgba(230,65,26,.45);
+    transform:translateY(-3px)}
+  #works1 .card.lit img{filter:brightness(1.06)}
+  .services .svc.lit{box-shadow:0 0 0 4px var(--lime),0 12px 32px rgba(230,65,26,.45);
+    transform:translateY(-3px)}
+}
+
 /* ── телефон: контакт подвалом внизу страницы ── */
 .mfoot{display:none}
 @media (max-width:900px){
@@ -749,6 +759,22 @@ document.querySelectorAll('.svc.flip').forEach(card=>{
   });
   v.addEventListener('ended',()=>{card.classList.remove('on');v.pause();bg.pause()});
 });
+</script>
+
+<script>
+/* телефон: подсветка плитки под пальцем — то же кольцо, что при наведении на экране */
+(function(){
+  const phone=()=>matchMedia('(max-width:900px)').matches;
+  const clear=()=>document.querySelectorAll('.lit').forEach(t=>t.classList.remove('lit'));
+  const at=(x,y)=>{const e=document.elementFromPoint(x,y);
+    return e&&e.closest('#works1 .card, .services .svc');};
+  document.addEventListener('touchstart',e=>{if(!phone()||e.touches.length!==1)return;
+    const t=e.touches[0], el=at(t.clientX,t.clientY); clear(); if(el)el.classList.add('lit');},
+    {passive:true,capture:true});
+  const off=()=>setTimeout(clear,180);
+  document.addEventListener('touchend',off,{passive:true,capture:true});
+  document.addEventListener('touchcancel',off,{passive:true,capture:true});
+})();
 </script>
 </body>
 </html>
