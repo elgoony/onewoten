@@ -495,7 +495,11 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 .svc.flip.on,.svc.flip.on:hover{box-shadow:none;transform:none}
 
 @media (max-width:900px){
-  .svc.flip{min-height:190px}
+  /* на телефоне переворота нет: карточка обычная, ролик открывает общий плеер */
+  .svc.flip{min-height:0}
+  .svc.flip .sides{height:auto;transform:none!important}
+  .svc.flip .front{position:relative;inset:auto}
+  .svc.flip .back{display:none}
   .svc.flip .face{border-radius:18px}
   .svc.flip .front{padding:14px 14px 16px}
   .svc.flip .front h2{margin-top:12px}
@@ -523,19 +527,19 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   <h1 class="title">Форматы работы</h1>
   <div class="body">
     <section class="services" aria-label="Услуги">
-      <article class="svc ref flip" data-src="video/fonbet.mp4"><div class="sides"><div class="face front">
+      <article class="svc ref flip" data-src="video/fonbet.mp4" data-title="Референс" data-vert="0"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Тендер</span><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Референс</h2>
         <p>Помощь проекту на&nbsp;любом из&nbsp;этапов. Отдаю трек под&nbsp;монтаж и&nbsp;дорожки для&nbsp;композитора.</p>
         <div class="price">50&#8239;000&nbsp;₽</div>
       </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Референс</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><div class="bar"><div class="fill"></div><i class="knob"></i></div></div></div></article>
-      <article class="svc flip" data-src="video/1126747019.mp4"><div class="sides"><div class="face front">
+      <article class="svc flip" data-src="video/1126747019.mp4" data-title="Полноценный трек" data-vert="0"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Полноценный трек</h2>
         <p>Включение в&nbsp;процесс на&nbsp;этапе аниматика или постпродакшена. Доведение до&nbsp;финального звучания.</p>
         <div class="price">200&#8239;000&nbsp;₽</div>
       </div><div class="face back"><video class="blur" playsinline preload="none" muted></video><video class="main" playsinline preload="none"></video><div class="cap">Полноценный трек</div><button class="pp" type="button" aria-label="Пауза"><svg class="i-pause" viewBox="0 0 14 16" fill="currentColor"><rect x="1" y="1" width="4" height="14" rx="1"/><rect x="9" y="1" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 16" fill="currentColor"><path d="M2 1l11 7-11 7z"/></svg></button><div class="bar"><div class="fill"></div><i class="knob"></i></div></div></div></article>
-      <article class="svc flip" data-src="video/1213937432.mp4"><div class="sides"><div class="face front">
+      <article class="svc flip" data-src="video/1213937432.mp4" data-title="Саунд-дизайн" data-vert="1"><div class="sides"><div class="face front">
         <div class="chips"><span class="chip">Препрод</span><span class="chip">Пост</span></div>
         <h2>Саунд-дизайн</h2>
         <div class="price">По&nbsp;запросу</div>
@@ -643,7 +647,7 @@ function lbOpen(id,title,vertical,img,fallback){
   fly.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`+(phone?';opacity:0;border-radius:0':'');
   if(img&&!phone){const c=document.createElement('img');c.src=img.src;c.style.objectPosition=getComputedStyle(img).objectPosition;fly.appendChild(c)}
   const v=document.createElement('video');
-  v.src='video/'+id+'.mp4';v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';
+  v.src=(typeof id==='string'&&id.slice(-4)==='.mp4')?id:'video/'+id+'.mp4';v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';
   v.addEventListener('error',()=>{lbClose();window.open(fallback,'_blank','noopener')});
   let ready=false,settled=phone;
   const reveal=()=>{if(ready&&settled&&fly)fly.classList.add('playing')};
@@ -727,6 +731,11 @@ document.querySelectorAll('.svc.flip').forEach(card=>{
     if(v.paused){v.play();bg.play&&bg.play().catch(()=>{});card.classList.remove('paused');pp.setAttribute('aria-label','Пауза')}
     else{v.pause();bg.pause();card.classList.add('paused');pp.setAttribute('aria-label','Смотреть')}});
   card.addEventListener('click',()=>{
+    if(matchMedia('(max-width:900px)').matches){
+      /* телефон: открываем общий плеер портфолио — с его смахиванием и блокировкой прокрутки */
+      lbOpen(card.dataset.src, card.dataset.title||'', card.dataset.vert==='1', null, card.dataset.src);
+      return;
+    }
     const on=card.classList.toggle('on');
     if(on){
       if(!v.src){ v.src=card.dataset.src; bg.src=card.dataset.src; }
