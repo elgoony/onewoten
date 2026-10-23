@@ -534,7 +534,8 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .dfoot{display:none}
   /* подвал «Слэши» (выбран 23 октября 2026): три слова одной строкой, */
   /* между ними те же пламенные «//», что в оглавлении; подписи CONTACT нет */
-  .mfoot{text-align:center;white-space:nowrap}
+  .mfoot{text-align:center}
+  .mfoot .row{margin-top:9px;white-space:nowrap}
   .mfoot a{display:inline;margin:0;font-size:16px;font-weight:600;letter-spacing:-.02em}
   .mfoot .sl{margin:0 9px;font-size:14px;font-weight:600;color:var(--lime)}
 }
@@ -559,7 +560,8 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 
 </div>
 <footer class="mfoot" aria-label="Contacts">
-  <a href="https://t.me/qatcha" target="_blank" rel="noopener">telegram</a><span class="sl">//</span><a href="https://www.instagram.com/onewoten" target="_blank" rel="noopener">instagram</a><span class="sl">//</span><a href="mailto:chuikoveditor@gmail.com">email</a>
+  <div class="lbl">Contact</div>
+  <div class="row"><a href="https://t.me/qatcha" target="_blank" rel="noopener">telegram</a><span class="sl">//</span><a href="https://www.instagram.com/onewoten" target="_blank" rel="noopener">instagram</a><span class="sl">//</span><a href="mailto:chuikoveditor@gmail.com">email</a></div>
 </footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Video"><div class="cap" id="lb-cap"></div></div>
