@@ -439,10 +439,10 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
 @media (max-width:900px){
   #works1 a.card[href$="1204216417"]{order:1}
   #works1 a.card[href$="1174736667"]{order:2}
-  #works1 a.card[href$="1162266151"]{order:3}
+  #works1 a.card[href$="1126747199"]{order:3}
   #works1 a.card[href$="1204216415"]{order:4}
   #works1 a.card[href$="1236162581"]{order:5}
-  #works1 a.card[href$="1126747199"]{order:6}
+  #works1 a.card[href$="1162266151"]{order:6}
   #works1 a.card[href$="1126747019"]{order:7}
   #works1 a.card[href$="1213937432"]{order:8}
 }
@@ -514,14 +514,24 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .svc.flip .front h2{margin-top:12px}
 }
 
-/* ── шапка «Строка» (выбрана 23 октября 2026): имя, роль и оба контакта ── */
-/* ── на одной базовой линии; слова CONTACT на экране нет ── */
+/* ── контакты ушли из оглавления вниз экрана, под работы: вариант «Строка» ── */
+/* ── (выбран 23 октября 2026). В шапке остаётся только имя с ролью. ── */
 @media (min-width:901px){
   .toc{align-items:baseline}
-  .toc .lnk{flex-direction:row;align-items:baseline;gap:24px}
-  .toc .lnk a{font-size:30px;color:var(--ink)}
+  .toc .lnk{display:none}
+  .dfoot{flex:0 0 auto;display:flex;align-items:baseline;justify-content:space-between;gap:40px;
+    margin-top:26px;padding-top:22px;border-top:1px solid rgba(20,16,14,.10)}
+  .dfoot .lbl{font-size:20px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);line-height:1}
+  .dfoot .row{display:flex;gap:28px}
+  .dfoot a{font-size:30px;font-weight:500;line-height:1;color:var(--ink);text-decoration:none;
+    transition:color .22s ease}
+}
+@media (min-width:901px) and (hover:hover){
+  .dfoot a:hover{color:var(--lime)}
 }
 @media (max-width:900px){
+  .dfoot{display:none}
   .mfoot a{display:block;margin-top:7px}
 }
 </style>
@@ -540,6 +550,7 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
     </nav>
   </header>
   <div class="body"><section class="works" id="works1" aria-label="Works"></section></div>
+  <footer class="dfoot" aria-label="Contacts"><div class="lbl">Contact</div><div class="row"><a href="https://t.me/qatcha" target="_blank" rel="noopener">telegram</a><a href="https://www.instagram.com/onewoten" target="_blank" rel="noopener">instagram</a><a href="mailto:chuikoveditor@gmail.com">email</a></div></footer>
 </div></main></section>
 
 </div>
