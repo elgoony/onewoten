@@ -515,10 +515,12 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   .svc.flip .front h2{margin-top:12px}
 }
 
-/* ── английская версия: два контакта вместо одного ── */
+/* ── шапка «Строка» (выбрана 23 октября 2026): имя, роль и оба контакта ── */
+/* ── на одной базовой линии; слова CONTACT на экране нет ── */
 @media (min-width:901px){
-  .toc .lnk{gap:4px}
-  .toc .lnk a{font-size:30px}
+  .toc{align-items:baseline}
+  .toc .lnk{flex-direction:row;align-items:baseline;gap:24px}
+  .toc .lnk a{font-size:30px;color:var(--ink)}
 }
 @media (max-width:900px){
   .mfoot a{display:block;margin-top:7px}
@@ -533,7 +535,6 @@ a:focus-visible{outline:3px solid #3b6cff;outline-offset:3px}
   <header class="toc">
     <div class="me"><span class="nm">onewoten</span><span class="sl">//</span><span class="rl">composer and&nbsp;sound designer</span></div>
     <nav class="lnk" aria-label="Contacts">
-      <span class="lbl">Contact</span>
       <a href="https://t.me/qatcha" target="_blank" rel="noopener">telegram</a>
       <a href="mailto:chuikoveditor@gmail.com">email</a>
     </nav>
